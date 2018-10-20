@@ -9,7 +9,7 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
-    "start": "HOST=127.0.0.1 PORT=80 react-scripts start",
+    "start": "HOST=127.0.0.1 PORT=8080 react-scripts start",
     "build": "react-scripts build",
     "test:unit": "CI=true react-scripts test --env=jsdom",
     "test:lint:js": "eslint --ext=js --ext=jsx \"src/js/**\"",

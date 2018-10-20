@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import CustomAlert from './CustomAlert';
+
 const kGlobalConstants = require('./Settings').default;
 
 class App extends Component {
@@ -18,7 +20,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <p>HELLO WORLD!</p>
+        <CustomAlert />
       </div>
     );
   }
