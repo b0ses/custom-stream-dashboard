@@ -16,11 +16,11 @@ class CustomAlert extends Component {
   }
 
   handleChange(event) {
-    const { prop } = event.target;
+    const { id } = event.target;
     const { value } = event.target;
 
     this.setState({
-      [prop]: value
+      [id]: value
     });
   }
 
