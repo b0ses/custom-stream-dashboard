@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as api from './helpers/api';
 
 const kGlobalConstants = require('./Settings').default;
 
