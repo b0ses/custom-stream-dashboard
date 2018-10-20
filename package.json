@@ -1,0 +1,29 @@
+{
+  "name": "custom-stream-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "HOST=127.0.0.1 PORT=80 react-scripts start",
+    "build": "react-scripts build",
+    "test:unit": "CI=true react-scripts test --env=jsdom",
+    "test:lint:js": "eslint --ext=js --ext=jsx \"src/js/**\"",
+    "test:lint:css": "stylelint \"**/*.css\"",
+    "test": "npm run test:lint:js && npm run test:lint:css && npm run test:unit",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "stylelint": "^9.4.0",
+    "stylelint-config-standard": "^18.2.0"
+  }
+}

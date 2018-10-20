@@ -1,0 +1,20 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "jest": true,
+    "browser": true
+  },
+  "settings": {
+    "import/resolver": {
+        "node": {
+            "moduleDirectory": ["node_modules", "src"]
+        }
+    }
+  },
+  "rules": {
+    "comma-dangle": [2, "never"],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    'no-console': 'off',
+    "no-param-reassign": [2, { "props": false }]
+  }
+}
