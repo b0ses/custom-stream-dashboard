@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as api from './helpers/api';
+import api from './helpers/api';
 
 class CustomAlert extends Component {
   constructor(props) {

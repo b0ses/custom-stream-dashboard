@@ -1,6 +1,6 @@
 const kGlobalConstants = require('../Settings').default;
 
-export default function request(endpoint, data) {
+function request(endpoint, data) {
   const server = `${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}/`;
   const type = data ? 'POST' : 'GET';
   fetch(server + endpoint, {
@@ -12,3 +12,5 @@ export default function request(endpoint, data) {
     body: JSON.stringify(data)
   });
 }
+
+export default { request };
