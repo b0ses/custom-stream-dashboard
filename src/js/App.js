@@ -23,7 +23,7 @@ class App extends Component {
     const alertNames = Array.from(data, x => x.name);
     const alerts = [];
     for (let i = 0; i < alertNames.length; i += 1) {
-      alerts.push(<Alert name={alertNames[i]} refreshAlerts={this.refreshAlerts} />);
+      alerts.push(<Alert key={i} name={alertNames[i]} refreshAlerts={this.refreshAlerts} />);
     }
     this.setState({
       alerts
