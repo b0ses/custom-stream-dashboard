@@ -1,26 +1,49 @@
 import React, { Component } from 'react';
 
+import api from './helpers/api';
 import CustomAlert from './CustomAlert';
-
-const kGlobalConstants = require('./Settings').default;
+import Alert from './Alert';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      endpoint: `${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}`
+      alerts: []
     };
+
+    this.refreshAlerts = this.refreshAlerts.bind(this);
+    this.setAlerts = this.setAlerts.bind(this);
   }
 
   componentDidMount() {
-    const { endpoint } = this.state;
-    console.log(endpoint);
+    this.refreshAlerts();
+  }
+
+  setAlerts(data) {
+    const alertNames = Array.from(data, x => x.name);
+    const alerts = [];
+    for (let i = 0; i < alertNames.length; i += 1) {
+      alerts.push(<Alert key={i} name={alertNames[i]} refreshAlerts={this.refreshAlerts} />);
+    }
+    this.setState({
+      alerts
+    });
+  }
+
+  refreshAlerts() {
+    api.request('alerts/', null, this.setAlerts);
   }
 
   render() {
+    const { alerts } = this.state;
     return (
       <div>
-        <CustomAlert />
+        <h3>Custom Alerts:</h3>
+        <div>
+          { alerts }
+        </div>
+        <h3>Or do it manually:</h3>
+        <CustomAlert refreshAlerts={this.refreshAlerts} />
       </div>
     );
   }
