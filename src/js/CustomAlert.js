@@ -13,6 +13,11 @@ class CustomAlert extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.saveAlert = this.saveAlert.bind(this);
+  }
+
+  saveAlert() {
+    api.request('alerts/add_alert', this.state, this.props.refreshAlerts);
   }
 
   handleChange(event) {
@@ -53,6 +58,7 @@ class CustomAlert extends Component {
           <input id="effect" type="text" value={effect} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
+        <input type="button" value="Save" onClick={this.saveAlert}/>
       </form>
     );
   }
