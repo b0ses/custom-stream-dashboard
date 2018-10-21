@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import api from './helpers/api';
 
 class CustomAlert extends Component {
@@ -17,7 +19,8 @@ class CustomAlert extends Component {
   }
 
   saveAlert() {
-    api.request('alerts/add_alert', this.state, this.props.refreshAlerts);
+    const { refreshAlerts } = this.props;
+    api.request('alerts/add_alert', this.state, refreshAlerts);
   }
 
   handleChange(event) {
@@ -58,10 +61,18 @@ class CustomAlert extends Component {
           <input id="effect" type="text" value={effect} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
-        <input type="button" value="Save" onClick={this.saveAlert}/>
+        <input type="button" value="Save" onClick={this.saveAlert} />
       </form>
     );
   }
 }
+
+CustomAlert.propTypes = {
+  refreshAlerts: PropTypes.func
+};
+
+CustomAlert.defaultProps = {
+  refreshAlerts: null
+};
 
 export default CustomAlert;

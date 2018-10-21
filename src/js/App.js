@@ -8,7 +8,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      alerts: [],
+      alerts: []
     };
 
     this.refreshAlerts = this.refreshAlerts.bind(this);
@@ -19,32 +19,31 @@ class App extends Component {
     this.refreshAlerts();
   }
 
-  refreshAlerts() {
-    api.request('alerts/', null, this.setAlerts);
-  }
-
   setAlerts(data) {
-    const alert_names = Array.from(data, x => x['name']);
-    let alerts = [];
-    for (let i = 0; i < alert_names.length; i++) {             
-      alerts.push(<Alert name={alert_names[i]} refreshAlerts={this.refreshAlerts}/>);   
+    const alertNames = Array.from(data, x => x.name);
+    const alerts = [];
+    for (let i = 0; i < alertNames.length; i += 1) {
+      alerts.push(<Alert name={alertNames[i]} refreshAlerts={this.refreshAlerts} />);
     }
     this.setState({
       alerts
     });
   }
 
+  refreshAlerts() {
+    api.request('alerts/', null, this.setAlerts);
+  }
+
   render() {
-    const { alerts } = this.state; 
+    const { alerts } = this.state;
     return (
       <div>
         <h3>Custom Alerts:</h3>
-          <div>
-            {alerts}
-          </div>
+        <div>
+          { alerts }
+        </div>
         <h3>Or do it manually:</h3>
-        <CustomAlert refreshAlerts={this.refreshAlerts}/>
-
+        <CustomAlert refreshAlerts={this.refreshAlerts} />
       </div>
     );
   }

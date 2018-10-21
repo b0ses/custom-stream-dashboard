@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import api from './helpers/api';
 
 class Alert extends Component {
@@ -14,7 +16,8 @@ class Alert extends Component {
   }
 
   removeAlert(event) {
-    api.request('alerts/remove_alert', this.props, this.props.refreshAlerts);
+    const { refreshAlerts } = this.props;
+    api.request('alerts/remove_alert', this.props, refreshAlerts);
     event.preventDefault();
   }
 
@@ -22,11 +25,21 @@ class Alert extends Component {
     const { name } = this.props;
     return (
       <div>
-        <button value={name} onClick={this.alert}>{ name }</button>
-        <a href='/' onClick={this.removeAlert}>Remove</a>
+        <button type="submit" value={name} onClick={this.alert}>{ name }</button>
+        <a href="/" onClick={this.removeAlert}>Remove</a>
       </div>
     );
   }
 }
+
+Alert.propTypes = {
+  name: PropTypes.string,
+  refreshAlerts: PropTypes.func
+};
+
+Alert.defaultProps = {
+  name: '',
+  refreshAlerts: null
+};
 
 export default Alert;
