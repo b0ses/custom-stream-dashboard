@@ -5,7 +5,7 @@ class CustomAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: '',
+      text: '',
       sound: '',
       duration: '',
       effect: ''
@@ -30,15 +30,15 @@ class CustomAlert extends Component {
   }
 
   render() {
-    const { message } = this.state;
+    const { text } = this.state;
     const { sound } = this.state;
     const { duration } = this.state;
     const { effect } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="custom-alert">
-          Message:
-          <input id="message" type="text" value={message} onChange={this.handleChange} />
+          Text:
+          <input id="text" type="text" value={text} onChange={this.handleChange} />
         </label>
         <label htmlFor="custom-alert">
           Sound:
