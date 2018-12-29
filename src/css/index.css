@@ -45,6 +45,5 @@ body {
 }
 
 .alert-button:active {
-    transform: scale(0.99);
-        background: url("../graphics/transparent_button_small_pressed.png") no-repeat scroll 0 0 transparent;
+    background: url("../graphics/transparent_button_small_pressed.png") no-repeat scroll 0 0 transparent;
 }
