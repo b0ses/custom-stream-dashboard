@@ -16,17 +16,21 @@ class Alert extends Component {
   }
 
   removeAlert(event) {
-    const { refreshAlerts } = this.props;
-    api.request('alerts/remove_alert', this.props, refreshAlerts);
+    const { name } = this.props;
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      const { refreshAlerts } = this.props;
+      api.request('alerts/remove_alert', this.props, refreshAlerts);
+    }
     event.preventDefault();
   }
 
   render() {
     const { name } = this.props;
     return (
-      <div>
-        <button type="submit" value={name} onClick={this.alert}>{ name }</button>
-        <a href="/" onClick={this.removeAlert}>Remove</a>
+      <div className="div-alert">
+        <button className="alert-button" type="submit" value={name} onClick={this.alert} />
+        <p title={name}>{ name }</p>
+        <a href="/" onClick={this.removeAlert}>(remove)</a>
       </div>
     );
   }

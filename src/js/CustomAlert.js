@@ -15,13 +15,8 @@ class CustomAlert extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.customAlert = this.customAlert.bind(this);
     this.saveAlert = this.saveAlert.bind(this);
-  }
-
-  saveAlert() {
-    const { refreshAlerts } = this.props;
-    api.request('alerts/add_alert', this.state, refreshAlerts);
   }
 
   handleChange(event) {
@@ -33,11 +28,15 @@ class CustomAlert extends Component {
     });
   }
 
-  handleSubmit(event) {
+  customAlert() {
     const alertData = Object.assign({}, this.state);
     delete alertData.name;
     api.request('alerts/alert', alertData);
-    event.preventDefault();
+  }
+
+  saveAlert() {
+    const { refreshAlerts } = this.props;
+    api.request('alerts/add_alert', this.state, refreshAlerts);
   }
 
   render() {
@@ -47,32 +46,22 @@ class CustomAlert extends Component {
     const { duration } = this.state;
     const { effect } = this.state;
     return (
-      <div>
+      <div id="custom-alert-form">
         <form onSubmit={this.handleSubmit}>
-          <label htmlFor="custom-alert">
-            Text:
-            <input id="text" type="text" value={text} onChange={this.handleChange} />
-          </label>
-          <label htmlFor="custom-alert">
-            Sound:
-            <input id="sound" type="text" value={sound} onChange={this.handleChange} />
-          </label>
-          <label htmlFor="custom-alert">
-            Duration:
-            <input id="duration" type="text" value={duration} onChange={this.handleChange} />
-          </label>
-          <label htmlFor="custom-alert">
-            Effect:
-            <input id="effect" type="text" value={effect} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <form onSubmit={this.saveAlert}>
-          <label htmlFor="save-alert">
-            Name:
-            <input id="name" type="text" value={name} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Save" />
+          <label htmlFor="custom-alert">Text</label>
+          <input id="text" type="text" value={text} placeholder="what appears" onChange={this.handleChange} />
+          <label htmlFor="custom-alert">Sound</label>
+          <input id="sound" type="text" value={sound} placeholder="what gets heard" onChange={this.handleChange} />
+          <label htmlFor="custom-alert">Duration</label>
+          <input id="duration" type="text" value={duration} placeholder="how long does it last (milliseconds)" onChange={this.handleChange} />
+          <label htmlFor="custom-alert">Effect</label>
+          <input id="effect" type="text" value={effect} placeholder="how it appears (ex. fade)" onChange={this.handleChange} />
+          <label htmlFor="custom-alert">Name</label>
+          <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
+          <p className="full-width">
+            <button type="button" onClick={this.customAlert}>Submit</button>
+            <button type="button" onClick={this.saveAlert}>Save</button>
+          </p>
         </form>
       </div>
     );

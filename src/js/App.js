@@ -38,12 +38,16 @@ class App extends Component {
     const { alerts } = this.state;
     return (
       <div>
-        <h3>Custom Alerts:</h3>
-        <div>
-          { alerts }
+        <div className="saved-alerts">
+          <h3>Alerts</h3>
+          <div className="grid">
+            { alerts }
+          </div>
         </div>
-        <h3>Or do it manually:</h3>
-        <CustomAlert refreshAlerts={this.refreshAlerts} />
+        <div className="custom-alert">
+          <h3>Custom Alert</h3>
+          <CustomAlert refreshAlerts={this.refreshAlerts} />
+        </div>
       </div>
     );
   }
