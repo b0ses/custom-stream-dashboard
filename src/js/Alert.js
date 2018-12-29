@@ -24,9 +24,10 @@ class Alert extends Component {
   render() {
     const { name } = this.props;
     return (
-      <div>
-        <button type="submit" value={name} onClick={this.alert}>{ name }</button>
-        <a href="/" onClick={this.removeAlert}>Remove</a>
+      <div className='div-alert'>
+        <button className='alert-button' type="submit" value={name} onClick={this.alert}></button>
+        <p>{ name }</p>
+        <a href="/" onClick={this.removeAlert}>(remove)</a>
       </div>
     );
   }
