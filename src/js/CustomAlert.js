@@ -15,7 +15,6 @@ class CustomAlert extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.customAlert = this.customAlert.bind(this);
     this.saveAlert = this.saveAlert.bind(this);
   }
@@ -27,10 +26,6 @@ class CustomAlert extends Component {
     this.setState({
       [id]: value
     });
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
   }
 
   customAlert() {
@@ -60,12 +55,12 @@ class CustomAlert extends Component {
           <label htmlFor="custom-alert">Duration</label>
           <input id="duration" type="text" value={duration} placeholder="how long does it last (milliseconds)" onChange={this.handleChange} />
           <label htmlFor="custom-alert">Effect</label>
-          <input id="effect" type="text" value={effect} placeholder="how it appears (ex. fade)"onChange={this.handleChange} />
+          <input id="effect" type="text" value={effect} placeholder="how it appears (ex. fade)" onChange={this.handleChange} />
           <label htmlFor="custom-alert">Name</label>
           <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
           <p className="full-width">
-            <button onClick={this.customAlert}>Submit</button>
-            <button onClick={this.saveAlert}>Save</button>
+            <button type="button" onClick={this.customAlert}>Submit</button>
+            <button type="button" onClick={this.saveAlert}>Save</button>
           </p>
         </form>
       </div>

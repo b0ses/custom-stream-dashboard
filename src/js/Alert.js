@@ -17,7 +17,7 @@ class Alert extends Component {
 
   removeAlert(event) {
     const { name } = this.props;
-    if (window.confirm(`Are you sure you want to delete ${name}?`)){
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
       const { refreshAlerts } = this.props;
       api.request('alerts/remove_alert', this.props, refreshAlerts);
     }
@@ -27,9 +27,9 @@ class Alert extends Component {
   render() {
     const { name } = this.props;
     return (
-      <div className='div-alert'>
-        <button className='alert-button' type="submit" value={name} onClick={this.alert}></button>
-        <p title={ name }>{ name }</p>
+      <div className="div-alert">
+        <button className="alert-button" type="submit" value={name} onClick={this.alert} />
+        <p title={name}>{ name }</p>
         <a href="/" onClick={this.removeAlert}>(remove)</a>
       </div>
     );
