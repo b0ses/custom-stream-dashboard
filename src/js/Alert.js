@@ -25,10 +25,13 @@ class Alert extends Component {
 
   removeAlert(event) {
     event.preventDefault();
-    const { name } = this.props;
-    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+    const { alertData } = this.props;
+    if (window.confirm(`Are you sure you want to delete ${alertData.name}?`)) {
       const { refreshAlerts } = this.props;
-      api.request('alerts/remove_alert', this.props, refreshAlerts);
+      const removeData = {
+        name: alertData.name
+      }
+      api.request('alerts/remove_alert', removeData, refreshAlerts);
     }
   }
 
