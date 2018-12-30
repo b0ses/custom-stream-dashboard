@@ -25,7 +25,14 @@ class App extends Component {
   setAlerts(data) {
     const alerts = [];
     for (let i = 0; i < data.length; i += 1) {
-      alerts.push(<Alert key={i} alertData={data[i]} refreshAlerts={this.refreshAlerts} setEditAlert={this.setEditAlert}/>);
+      const alert = (<Alert
+        key={i}
+        alertData={data[i]}
+        refreshAlerts={this.refreshAlerts}
+        setEditAlert={this.setEditAlert}
+      />
+      );
+      alerts.push(alert);
     }
     this.setState({
       alerts
@@ -33,7 +40,7 @@ class App extends Component {
   }
 
   setEditAlert(editAlert) {
-    this.customAlert.current.prePopulate(editAlert); 
+    this.customAlert.current.prePopulate(editAlert);
   }
 
   refreshAlerts() {

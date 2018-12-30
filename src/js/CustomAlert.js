@@ -29,7 +29,7 @@ class CustomAlert extends Component {
     });
   }
 
-  prePopulate(data){
+  prePopulate(data) {
     this.setState(data);
   }
 

@@ -30,20 +30,21 @@ class Alert extends Component {
       const { refreshAlerts } = this.props;
       const removeData = {
         name: alertData.name
-      }
+      };
       api.request('alerts/remove_alert', removeData, refreshAlerts);
     }
   }
 
   render() {
     const { alertData } = this.props;
-    const name = alertData.name;
+    const { name } = alertData;
     return (
       <div className="div-alert">
         <button className="alert-button" type="submit" value={name} onClick={this.alert} />
         <p title={name}>{ name }</p>
         <p>
-          <a href="/" onClick={this.editAlert}>edit</a>&nbsp;
+          <a href="/" onClick={this.editAlert}>edit</a>
+          &nbsp;
           <a href="/" onClick={this.removeAlert}>remove</a>
         </p>
       </div>
@@ -52,13 +53,15 @@ class Alert extends Component {
 }
 
 Alert.propTypes = {
-  name: PropTypes.string,
-  refreshAlerts: PropTypes.func
+  alertData: PropTypes.shape,
+  refreshAlerts: PropTypes.func,
+  setEditAlert: PropTypes.func
 };
 
 Alert.defaultProps = {
-  name: '',
-  refreshAlerts: null
+  alertData: null,
+  refreshAlerts: null,
+  setEditAlert: null
 };
 
 export default Alert;
