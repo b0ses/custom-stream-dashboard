@@ -7,11 +7,14 @@ import Alert from './Alert';
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
       alerts: []
     };
+    this.customAlert = React.createRef();
 
     this.refreshAlerts = this.refreshAlerts.bind(this);
+    this.setEditAlert = this.setEditAlert.bind(this);
     this.setAlerts = this.setAlerts.bind(this);
   }
 
@@ -20,14 +23,24 @@ class App extends Component {
   }
 
   setAlerts(data) {
-    const alertNames = Array.from(data, x => x.name);
     const alerts = [];
-    for (let i = 0; i < alertNames.length; i += 1) {
-      alerts.push(<Alert key={i} name={alertNames[i]} refreshAlerts={this.refreshAlerts} />);
+    for (let i = 0; i < data.length; i += 1) {
+      const alert = (<Alert
+        key={i}
+        alertData={data[i]}
+        refreshAlerts={this.refreshAlerts}
+        setEditAlert={this.setEditAlert}
+      />
+      );
+      alerts.push(alert);
     }
     this.setState({
       alerts
     });
+  }
+
+  setEditAlert(editAlert) {
+    this.customAlert.current.prePopulate(editAlert);
   }
 
   refreshAlerts() {
@@ -45,8 +58,8 @@ class App extends Component {
           </div>
         </div>
         <div className="custom-alert">
-          <h3>Custom Alert</h3>
-          <CustomAlert refreshAlerts={this.refreshAlerts} />
+          <h3>New Alert</h3>
+          <CustomAlert ref={this.customAlert} refreshAlerts={this.refreshAlerts} />
         </div>
       </div>
     );
