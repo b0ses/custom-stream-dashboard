@@ -13,7 +13,11 @@ class Alert extends Component {
   }
 
   alert() {
-    api.request('alerts/alert', this.props);
+    const { alertData } = this.props;
+    const savedAlertData = {
+      name: alertData.name
+    };
+    api.request('alerts/alert', savedAlertData);
   }
 
   editAlert(event) {
@@ -53,7 +57,13 @@ class Alert extends Component {
 }
 
 Alert.propTypes = {
-  alertData: PropTypes.shape,
+  alertData: PropTypes.shape({
+    name: PropTypes.string,
+    text: PropTypes.string,
+    sound: PropTypes.string,
+    duration: PropTypes.number,
+    effect: PropTypes.string
+  }),
   refreshAlerts: PropTypes.func,
   setEditAlert: PropTypes.func
 };
