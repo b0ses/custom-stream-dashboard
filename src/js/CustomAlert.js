@@ -17,6 +17,7 @@ class CustomAlert extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.customAlert = this.customAlert.bind(this);
     this.saveAlert = this.saveAlert.bind(this);
+    this.prePopulate = this.prePopulate.bind(this);
   }
 
   handleChange(event) {
@@ -26,6 +27,10 @@ class CustomAlert extends Component {
     this.setState({
       [id]: value
     });
+  }
+
+  prePopulate(data){
+    this.setState(data);
   }
 
   customAlert() {
