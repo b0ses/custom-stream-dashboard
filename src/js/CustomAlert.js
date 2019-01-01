@@ -55,6 +55,15 @@ class CustomAlert extends Component {
         return obj;
       }, {});
     api.request('alerts/add_alert', filtered, refreshAlerts);
+
+    // clear after saving
+    this.setState({
+      name: '',
+      text: '',
+      sound: '',
+      duration: '',
+      effect: ''
+    });
   }
 
   render() {
