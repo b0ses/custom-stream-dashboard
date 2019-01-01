@@ -36,12 +36,25 @@ class CustomAlert extends Component {
   customAlert() {
     const alertData = Object.assign({}, this.state);
     delete alertData.name;
-    api.request('alerts/alert', alertData);
+    const filtered = Object.keys(alertData)
+      .filter(key => alertData[key] !== '')
+      .reduce((obj, key) => {
+        obj[key] = alertData[key];
+        return obj;
+      }, {});
+    api.request('alerts/alert', filtered);
   }
 
   saveAlert() {
     const { refreshAlerts } = this.props;
-    api.request('alerts/add_alert', this.state, refreshAlerts);
+    const alertData = Object.assign({}, this.state);
+    const filtered = Object.keys(alertData)
+      .filter(key => alertData[key] !== '')
+      .reduce((obj, key) => {
+        obj[key] = alertData[key];
+        return obj;
+      }, {});
+    api.request('alerts/add_alert', filtered, refreshAlerts);
   }
 
   render() {
