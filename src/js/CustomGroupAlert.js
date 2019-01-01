@@ -44,6 +44,12 @@ class CustomAlert extends Component {
       alert_names: alerts
     };
     api.request('alerts/save_group', addGroupData, refreshGroupAlerts);
+
+    // clear after saving
+    this.setState({
+      name: '',
+      alerts: []
+    });
   }
 
   addToGroup(event) {
