@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import api from './helpers/api';
 
-class CustomAlert extends Component {
-  static generateOptions(arr, dblClickCallback) {
-    return arr.map(name => <option key={name} onDoubleClick={dblClickCallback}>{name}</option>);
-  }
+function generateOptions(arr, dblClickCallback) {
+  return arr.map(name => <option key={name} onDoubleClick={dblClickCallback}>{name}</option>);
+}
 
+class CustomAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,13 +78,13 @@ class CustomAlert extends Component {
           <div>
             <p>Available</p>
             <select id="avail-alerts" multiple>
-              { this.generateOptions(availAlerts, this.addToGroup) }
+              { generateOptions(availAlerts, this.addToGroup) }
             </select>
           </div>
           <div>
             <p>Current</p>
             <select id="group-alerts" multiple>
-              { this.generateOptions(alerts, this.removeFromGroup) }
+              { generateOptions(alerts, this.removeFromGroup) }
             </select>
           </div>
           <label htmlFor="custom-alert">Name</label>
