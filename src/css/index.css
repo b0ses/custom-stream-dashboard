@@ -95,42 +95,39 @@ button, body, input, select {
   height: 21px;
 }
 
-#custom-group-alert-form form {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 5px;
-  column-gap: 10px;
-}
-
 #custom-group-alert-form label {
-  grid-column: 1 / 2;
   text-align: center;
 }
 
-#custom-group-alert-form input {
-  grid-column: 2;
-  margin-right: 50px;
-  width: 200px;
+#custom-group-alert-form button {
+  height: 21px;
 }
 
-#custom-group-alert-form select {
-  margin: 10px;
+.two-lists-ui {
+  display: grid;
+  grid-template-columns: 1fr 0.2fr 1fr;
+  grid-gap: 5px;
+  column-gap: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.two-lists-ui .left-list select, .two-lists-ui .right-list select {
+  width: 100%;
   height: 100px;
-  width: 90%;
+}
+
+.two-lists-ui .add-remove{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #custom-group-alert-form p {
   text-align: center;
-  margin: 0;
 }
 
-#custom-group-alert-form .full-width {
-  grid-column: 1 / 3;
-  padding-left: 100px;
-  padding-right: 100px;
+#custom-group-alert-form label {
+  margin: 5px;
 }
 
-#custom-group-alert-form button {
-  width: 100%;
-  height: 21px;
-}
