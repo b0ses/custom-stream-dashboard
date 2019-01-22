@@ -2,13 +2,19 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: #222222;
+  background: #222;
   color: white;
 }
 
 h3 {
   padding-left: 15px;
   font-size: 30px;
+}
+
+button, body, input, select {
+  background: #222;
+  color: white;
+  border-color: #444;
 }
 
 .saved-alerts {
@@ -36,6 +42,7 @@ h3 {
 .div-alert a {
   margin: 0;
   font-size: 0.7em;
+  color: white;
 }
 
 .alert-button {
