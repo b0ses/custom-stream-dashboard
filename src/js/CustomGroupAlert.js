@@ -3,8 +3,19 @@ import PropTypes from 'prop-types';
 
 import api from './helpers/api';
 
-function generateOptions(arr, dblClickCallback) {
-  return arr.map(name => <option key={name} onDoubleClick={dblClickCallback}>{name}</option>);
+function generateOptions(arr) {
+  return arr.map(name => <option key={name}>{name}</option>);
+}
+
+function getSelectedValues(event) {
+  const { options } = event.target;
+  const value = [];
+  for (let i = 0, l = options.length; i < l; i += 1) {
+    if (options[i].selected) {
+      value.push(options[i].value);
+    }
+  }
+  return value;
 }
 
 class CustomAlert extends Component {
@@ -12,7 +23,9 @@ class CustomAlert extends Component {
     super(props);
     this.state = {
       name: '',
-      alerts: []
+      alerts: [],
+      addAlerts: [],
+      removeAlerts: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -20,6 +33,8 @@ class CustomAlert extends Component {
     this.prePopulate = this.prePopulate.bind(this);
     this.addToGroup = this.addToGroup.bind(this);
     this.removeFromGroup = this.removeFromGroup.bind(this);
+    this.addAlerts = this.addAlerts.bind(this);
+    this.removeAlerts = this.removeAlerts.bind(this);
   }
 
   handleChange(event) {
@@ -28,6 +43,18 @@ class CustomAlert extends Component {
 
     this.setState({
       [id]: value
+    });
+  }
+
+  addAlerts(e) {
+    this.setState({
+      addAlerts: getSelectedValues(e)
+    });
+  }
+
+  removeAlerts(e) {
+    this.setState({
+      removeAlerts: getSelectedValues(e)
     });
   }
 
@@ -53,49 +80,68 @@ class CustomAlert extends Component {
   }
 
   addToGroup(event) {
-    const { value } = event.target;
+    event.preventDefault();
+    const { addAlerts } = this.state;
     const { alerts } = this.state;
     this.setState({
-      alerts: [...alerts, value].sort()
+      alerts: [...alerts, ...addAlerts].sort(),
+      addAlerts: []
     });
   }
 
   removeFromGroup(event) {
-    const { value } = event.target;
+    event.preventDefault();
+    const { removeAlerts } = this.state;
     const { alerts } = this.state;
     const newAlerts = [...alerts];
-    const index = newAlerts.indexOf(value);
-    if (index !== -1) {
-      newAlerts.splice(index, 1);
-      this.setState({
-        alerts: newAlerts.sort()
-      });
+
+    for (let i = 0; i < removeAlerts.length; i += 1) {
+      const removeAlert = removeAlerts[i];
+      const index = newAlerts.indexOf(removeAlert);
+      if (index !== -1) {
+        newAlerts.splice(index, 1);
+      }
     }
+
+    this.setState({
+      alerts: newAlerts.sort(),
+      removeAlerts: []
+    });
   }
 
   render() {
     const { allAlerts } = this.props;
     const { alerts } = this.state;
     const availAlerts = allAlerts.filter(x => !alerts.includes(x));
+    const { addAlerts } = this.state;
+    const { removeAlerts } = this.state;
     const { name } = this.state;
     return (
       <div id="custom-group-alert-form">
         <form onSubmit={this.handleSubmit}>
-          <div>
-            <p>Available</p>
-            <select id="avail-alerts" multiple>
-              { generateOptions(availAlerts, this.addToGroup) }
-            </select>
+          <div className="two-lists-ui">
+            <div className="left-list">
+              <p>Available</p>
+              <select id="avail-alerts" multiple value={addAlerts} onChange={this.addAlerts}>
+                { generateOptions(availAlerts) }
+              </select>
+            </div>
+            <div className="add-remove">
+              <button type="button" onClick={this.addToGroup}>Add</button>
+              <button type="button" onClick={this.removeFromGroup}>Remove</button>
+            </div>
+            <div className="right-list">
+              <p>Current</p>
+              <select id="group-alerts" multiple value={removeAlerts} onChange={this.removeAlerts}>
+                { generateOptions(alerts) }
+              </select>
+            </div>
           </div>
-          <div>
-            <p>Current</p>
-            <select id="group-alerts" multiple>
-              { generateOptions(alerts, this.removeFromGroup) }
-            </select>
-          </div>
-          <label htmlFor="custom-alert">Name</label>
-          <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
-          <p className="full-width">
+          <p>
+            <label htmlFor="custom-alert">Name</label>
+            <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
+          </p>
+          <p>
             <button type="button" onClick={this.saveGroupAlert}>Save</button>
           </p>
         </form>

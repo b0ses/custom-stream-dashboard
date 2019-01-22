@@ -24,7 +24,9 @@ class GroupAlert extends Component {
     event.preventDefault();
     const { groupAlertData } = this.props;
     const { setEditGroupAlert } = this.props;
+    const { refreshGroupAlerts } = this.props;
     setEditGroupAlert(groupAlertData);
+    refreshGroupAlerts();
   }
 
   removeGroupAlert(event) {

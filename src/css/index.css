@@ -2,13 +2,22 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background: #222222;
+  background: #222;
   color: white;
 }
 
 h3 {
   padding-left: 15px;
   font-size: 30px;
+}
+
+button,
+body,
+input,
+select {
+  background: #222;
+  color: white;
+  border-color: #444;
 }
 
 .saved-alerts {
@@ -36,6 +45,7 @@ h3 {
 .div-alert a {
   margin: 0;
   font-size: 0.7em;
+  color: white;
 }
 
 .alert-button {
@@ -88,42 +98,35 @@ h3 {
   height: 21px;
 }
 
-#custom-group-alert-form form {
+#custom-group-alert-form button {
+  height: 21px;
+}
+
+.two-lists-ui {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 0.2fr 1fr;
   grid-gap: 5px;
   column-gap: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-#custom-group-alert-form label {
-  grid-column: 1 / 2;
-  text-align: center;
-}
-
-#custom-group-alert-form input {
-  grid-column: 2;
-  margin-right: 50px;
-  width: 200px;
-}
-
-#custom-group-alert-form select {
-  margin: 10px;
+.two-lists-ui .left-list select,
+.two-lists-ui .right-list select {
+  width: 100%;
   height: 100px;
-  width: 90%;
+}
+
+.two-lists-ui .add-remove {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #custom-group-alert-form p {
   text-align: center;
-  margin: 0;
 }
 
-#custom-group-alert-form .full-width {
-  grid-column: 1 / 3;
-  padding-left: 100px;
-  padding-right: 100px;
-}
-
-#custom-group-alert-form button {
-  width: 100%;
-  height: 21px;
+#custom-group-alert-form label {
+  margin: 5px;
 }
