@@ -30,9 +30,10 @@ select {
 }
 
 .div-alert {
-  text-align: center;
   margin: 5px;
-  width: 100px;
+  width: 92px;
+  position: relative;
+  display: inline-block;
 }
 
 .div-alert p {
@@ -40,6 +41,7 @@ select {
   font-size: 1em;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
 }
 
 .div-alert a {
@@ -49,8 +51,9 @@ select {
 }
 
 .alert-button {
-  height: 90px;
+  height: 95px;
   width: 92px;
+  position: relative;
   display: inline-block;
   border: none;
   margin-left: auto;
@@ -68,6 +71,16 @@ select {
 
 .alert-button:active {
   background: url("../graphics/transparent_button_small_pressed.png") no-repeat scroll 0 0 transparent;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.button-background {
+  height: 90px;
+  width: 92px;
+  position: absolute;
 }
 
 #custom-alert-form form {
