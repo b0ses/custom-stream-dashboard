@@ -44,8 +44,13 @@ class GroupAlert extends Component {
   render() {
     const { groupAlertData } = this.props;
     const { name } = groupAlertData;
+    const color = '#CCC';
+    const style = {
+      backgroundColor: color
+    };
     return (
       <div className="div-alert">
+        <div className="circle button-background" style={style} />
         <button className="alert-button" type="submit" value={name} onClick={this.groupAlert} />
         <p title={name}>{ name }</p>
         <p>

@@ -42,8 +42,13 @@ class Alert extends Component {
   render() {
     const { alertData } = this.props;
     const { name } = alertData;
+    const color = '#CCC';
+    const style = {
+      backgroundColor: color
+    };
     return (
       <div className="div-alert">
+        <div className="circle button-background" style={style} />
         <button className="alert-button" type="submit" value={name} onClick={this.alert} />
         <p title={name}>{ name }</p>
         <p>
