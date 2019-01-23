@@ -42,7 +42,7 @@ class Alert extends Component {
   render() {
     const { alertData } = this.props;
     const { name } = alertData;
-    const color = "#CCC";
+    const color = '#CCC';
     const style = {
       backgroundColor: color
     };

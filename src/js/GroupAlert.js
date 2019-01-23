@@ -44,7 +44,7 @@ class GroupAlert extends Component {
   render() {
     const { groupAlertData } = this.props;
     const { name } = groupAlertData;
-    const color = "#CCC";
+    const color = '#CCC';
     const style = {
       backgroundColor: color
     };
