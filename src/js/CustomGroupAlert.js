@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import api from './helpers/api';
+import ColorPicker from './helpers/ColorPicker';
 
 function generateOptions(arr) {
   return arr.map(name => <option key={name}>{name}</option>);
@@ -18,17 +19,21 @@ function getSelectedValues(event) {
   return value;
 }
 
-class CustomAlert extends Component {
+class CustomGroupAlert extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
+      thumbnail: '',
       alerts: [],
       addAlerts: [],
       removeAlerts: []
     };
 
+    this.colorPickerRef = React.createRef();
+
     this.handleChange = this.handleChange.bind(this);
+    this.changeThumbnail = this.changeThumbnail.bind(this);
     this.saveGroupAlert = this.saveGroupAlert.bind(this);
     this.prePopulate = this.prePopulate.bind(this);
     this.addToGroup = this.addToGroup.bind(this);
@@ -40,6 +45,10 @@ class CustomAlert extends Component {
   handleChange(event) {
     const { id } = event.target;
     const { value } = event.target;
+
+    if (id === 'thumbnail'){
+      this.colorPickerRef.current.setColor(value);
+    }
 
     this.setState({
       [id]: value
@@ -58,25 +67,36 @@ class CustomAlert extends Component {
     });
   }
 
+  changeThumbnail(color){
+    this.setState({
+      thumbnail: color
+    });
+  }
+
   prePopulate(data) {
     this.setState(data);
+    this.colorPickerRef.current.setColor(data.thumbnail);
   }
 
   saveGroupAlert() {
     const { refreshGroupAlerts } = this.props;
     const { name } = this.state;
     const { alerts } = this.state;
+    const { thumbnail } = this.state;
     const addGroupData = {
       group_name: name,
-      alert_names: alerts
+      alert_names: alerts,
+      thumbnail: thumbnail
     };
     api.request('alerts/save_group', addGroupData, refreshGroupAlerts);
 
     // clear after saving
     this.setState({
       name: '',
-      alerts: []
+      alerts: [],
+      thumbnail: ''
     });
+
   }
 
   addToGroup(event) {
@@ -84,7 +104,7 @@ class CustomAlert extends Component {
     const { addAlerts } = this.state;
     const { alerts } = this.state;
     this.setState({
-      alerts: [...alerts, ...addAlerts].sort(),
+      alerts: [...alerts, ...addAlerts],
       addAlerts: []
     });
   }
@@ -104,7 +124,7 @@ class CustomAlert extends Component {
     }
 
     this.setState({
-      alerts: newAlerts.sort(),
+      alerts: newAlerts,
       removeAlerts: []
     });
   }
@@ -116,48 +136,54 @@ class CustomAlert extends Component {
     const { addAlerts } = this.state;
     const { removeAlerts } = this.state;
     const { name } = this.state;
+    const { thumbnail } = this.state;
     return (
-      <div id="custom-group-alert-form">
-        <form onSubmit={this.handleSubmit}>
-          <div className="two-lists-ui">
-            <div className="left-list">
-              <p>Available</p>
-              <select id="avail-alerts" multiple value={addAlerts} onChange={this.addAlerts}>
-                { generateOptions(availAlerts) }
-              </select>
-            </div>
-            <div className="add-remove">
-              <button type="button" onClick={this.addToGroup}>Add</button>
-              <button type="button" onClick={this.removeFromGroup}>Remove</button>
-            </div>
-            <div className="right-list">
-              <p>Current</p>
-              <select id="group-alerts" multiple value={removeAlerts} onChange={this.removeAlerts}>
-                { generateOptions(alerts) }
-              </select>
-            </div>
+      <div>
+        <div className="two-lists-ui">
+          <div className="left-list">
+            <p>Available</p>
+            <select id="avail-alerts" multiple value={addAlerts} onChange={this.addAlerts}>
+              { generateOptions(availAlerts) }
+            </select>
           </div>
-          <p>
+          <div className="add-remove">
+            <button type="button" onClick={this.addToGroup}>Add</button>
+            <button type="button" onClick={this.removeFromGroup}>Remove</button>
+          </div>
+          <div className="right-list">
+            <p>Current</p>
+            <select id="group-alerts" multiple value={removeAlerts} onChange={this.removeAlerts}>
+              { generateOptions(alerts) }
+            </select>
+          </div>
+        </div>
+        <div className='custom-form'>
+          <form onSubmit={this.handleSubmit}>
             <label htmlFor="custom-alert">Name</label>
             <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
-          </p>
-          <p>
-            <button type="button" onClick={this.saveGroupAlert}>Save</button>
-          </p>
-        </form>
+            <label htmlFor="custom-alert">Button</label>
+            <div className='alert-thumbnail'>
+              <input id="thumbnail" type="text" value={thumbnail} placeholder="hex color" onChange={this.handleChange} />
+              <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail}/>
+            </div>
+            <p className="full-width">
+                <button type="button" onClick={this.saveGroupAlert}>Save</button>
+            </p>
+          </form>
+        </div>
       </div>
     );
   }
 }
 
-CustomAlert.propTypes = {
+CustomGroupAlert.propTypes = {
   refreshGroupAlerts: PropTypes.func,
   allAlerts: PropTypes.arrayOf(PropTypes.string)
 };
 
-CustomAlert.defaultProps = {
+CustomGroupAlert.defaultProps = {
   refreshGroupAlerts: null,
   allAlerts: []
 };
 
-export default CustomAlert;
+export default CustomGroupAlert;

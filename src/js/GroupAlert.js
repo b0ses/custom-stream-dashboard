@@ -44,9 +44,12 @@ class GroupAlert extends Component {
   render() {
     const { groupAlertData } = this.props;
     const { name } = groupAlertData;
-    const color = '#CCC';
+    let { thumbnail } = groupAlertData;
+    if (thumbnail === ''){
+      thumbnail = '#DDD';
+    }
     const style = {
-      backgroundColor: color
+      backgroundColor: thumbnail
     };
     return (
       <div className="div-alert">

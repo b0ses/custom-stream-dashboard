@@ -42,9 +42,12 @@ class Alert extends Component {
   render() {
     const { alertData } = this.props;
     const { name } = alertData;
-    const color = '#CCC';
+    let { thumbnail } = alertData;
+    if (thumbnail === ''){
+      thumbnail = '#DDD';
+    }
     const style = {
-      backgroundColor: color
+      backgroundColor: thumbnail
     };
     return (
       <div className="div-alert">
