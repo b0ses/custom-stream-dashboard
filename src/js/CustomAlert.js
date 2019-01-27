@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import api from './helpers/api';
+import ColorPicker from './helpers/ColorPicker';
 
 class CustomAlert extends Component {
   constructor(props) {
@@ -11,10 +12,14 @@ class CustomAlert extends Component {
       text: '',
       sound: '',
       duration: '',
-      effect: ''
+      effect: '',
+      thumbnail: ''
     };
 
+    this.colorPickerRef = React.createRef();
+
     this.handleChange = this.handleChange.bind(this);
+    this.changeThumbnail = this.changeThumbnail.bind(this);
     this.customAlert = this.customAlert.bind(this);
     this.saveAlert = this.saveAlert.bind(this);
     this.prePopulate = this.prePopulate.bind(this);
@@ -24,13 +29,24 @@ class CustomAlert extends Component {
     const { id } = event.target;
     const { value } = event.target;
 
+    if (id === 'thumbnail') {
+      this.colorPickerRef.current.setColor(value);
+    }
+
     this.setState({
       [id]: value
     });
   }
 
+  changeThumbnail(color) {
+    this.setState({
+      thumbnail: color
+    });
+  }
+
   prePopulate(data) {
     this.setState(data);
+    this.colorPickerRef.current.setColor(data.thumbnail);
   }
 
   customAlert() {
@@ -62,7 +78,8 @@ class CustomAlert extends Component {
       text: '',
       sound: '',
       duration: '',
-      effect: ''
+      effect: '',
+      thumbnail: ''
     });
   }
 
@@ -72,8 +89,9 @@ class CustomAlert extends Component {
     const { sound } = this.state;
     const { duration } = this.state;
     const { effect } = this.state;
+    const { thumbnail } = this.state;
     return (
-      <div id="custom-alert-form">
+      <div className="custom-form">
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="custom-alert">Text</label>
           <input id="text" type="text" value={text} placeholder="what appears" onChange={this.handleChange} />
@@ -83,6 +101,11 @@ class CustomAlert extends Component {
           <input id="duration" type="text" value={duration} placeholder="how long does it last (milliseconds)" onChange={this.handleChange} />
           <label htmlFor="custom-alert">Effect</label>
           <input id="effect" type="text" value={effect} placeholder="how it appears (ex. fade)" onChange={this.handleChange} />
+          <label htmlFor="custom-alert">Button</label>
+          <div className="alert-thumbnail">
+            <input id="thumbnail" type="text" value={thumbnail} placeholder="hex color" onChange={this.handleChange} />
+            <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail} />
+          </div>
           <label htmlFor="custom-alert">Name</label>
           <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
           <p className="full-width">

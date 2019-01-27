@@ -83,36 +83,86 @@ select {
   position: absolute;
 }
 
-#custom-alert-form form {
+.custom-form form {
   display: grid;
   grid-template-columns: 100px 1fr;
   grid-gap: 5px;
   column-gap: 10px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-#custom-alert-form label {
+.custom-form label {
   grid-column: 1 / 2;
   text-align: center;
+  margin: 5px;
 }
 
-#custom-alert-form input {
+.custom-form input {
   grid-column: 2;
-  margin-right: 50px;
 }
 
-#custom-alert-form .full-width {
+.custom-form .full-width {
   grid-column: 1 / 3;
   padding-left: 100px;
   padding-right: 100px;
 }
 
-#custom-alert-form button {
+.custom-form button {
   width: 50%;
   height: 21px;
 }
 
-#custom-group-alert-form button {
-  height: 21px;
+.custom-form .alert-thumbnail input {
+  width: 50%;
+  float: left;
+}
+
+.custom-form .alert-thumbnail .color-picker {
+  float: left;
+  width: 49%;
+}
+
+.color-picker .swatch {
+  float: left;
+  width: 100%;
+  padding: 2px;
+  background: #fff;
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  cursor: pointer;
+}
+
+.sketch-picker {
+  background: #222 !important;
+  border: solid 2px #444;
+}
+
+.sketch-picker span {
+  color: white !important;
+}
+
+.color-picker .swatch .color {
+  width: 100%;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.color-picker .popover {
+  position: absolute;
+  z-index: 2;
+  margin-top: -285px;
+}
+
+.color-picker .cover {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .two-lists-ui {
@@ -122,6 +172,7 @@ select {
   column-gap: 10px;
   margin-left: 20px;
   margin-right: 20px;
+  text-align: center;
 }
 
 .two-lists-ui .left-list select,
@@ -136,10 +187,6 @@ select {
   align-items: center;
 }
 
-#custom-group-alert-form p {
+.custom-form p {
   text-align: center;
-}
-
-#custom-group-alert-form label {
-  margin: 5px;
 }
