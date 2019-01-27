@@ -90,6 +90,8 @@ select {
   column-gap: 10px;
   margin-left: 100px;
   margin-right: 100px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .custom-form label {
@@ -170,6 +172,7 @@ select {
   column-gap: 10px;
   margin-left: 20px;
   margin-right: 20px;
+  text-align: center;
 }
 
 .two-lists-ui .left-list select,
