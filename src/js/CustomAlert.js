@@ -29,7 +29,7 @@ class CustomAlert extends Component {
     const { id } = event.target;
     const { value } = event.target;
 
-    if (id === 'thumbnail'){
+    if (id === 'thumbnail') {
       this.colorPickerRef.current.setColor(value);
     }
 
@@ -38,7 +38,7 @@ class CustomAlert extends Component {
     });
   }
 
-  changeThumbnail(color){
+  changeThumbnail(color) {
     this.setState({
       thumbnail: color
     });
@@ -91,7 +91,7 @@ class CustomAlert extends Component {
     const { effect } = this.state;
     const { thumbnail } = this.state;
     return (
-      <div className='custom-form'>
+      <div className="custom-form">
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="custom-alert">Text</label>
           <input id="text" type="text" value={text} placeholder="what appears" onChange={this.handleChange} />
@@ -104,7 +104,7 @@ class CustomAlert extends Component {
           <label htmlFor="custom-alert">Button</label>
           <div className="alert-thumbnail">
             <input id="thumbnail" type="text" value={thumbnail} placeholder="hex color" onChange={this.handleChange} />
-            <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail}/>
+            <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail} />
           </div>
           <label htmlFor="custom-alert">Name</label>
           <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />

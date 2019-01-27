@@ -43,7 +43,7 @@ class Alert extends Component {
     const { alertData } = this.props;
     const { name } = alertData;
     let { thumbnail } = alertData;
-    if (thumbnail === ''){
+    if (thumbnail === '') {
       thumbnail = '#DDD';
     }
     const style = {

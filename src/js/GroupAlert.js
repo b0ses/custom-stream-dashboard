@@ -45,7 +45,7 @@ class GroupAlert extends Component {
     const { groupAlertData } = this.props;
     const { name } = groupAlertData;
     let { thumbnail } = groupAlertData;
-    if (thumbnail === ''){
+    if (thumbnail === '') {
       thumbnail = '#DDD';
     }
     const style = {

@@ -95,6 +95,7 @@ select {
 .custom-form label {
   grid-column: 1 / 2;
   text-align: center;
+  margin: 5px;
 }
 
 .custom-form input {
@@ -127,12 +128,11 @@ select {
   width: 100%;
   padding: 2px;
   background: #fff;
-  borderRadius: 1px;
-  boxShadow: 0 0 0 1px rgba(0,0,0,.1);
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   display: inline-block;
   cursor: pointer;
 }
-
 
 .sketch-picker {
   background: #222 !important;
@@ -146,25 +146,21 @@ select {
 .color-picker .swatch .color {
   width: 100%;
   height: 12px;
-  borderRadius: 2px;
+  border-radius: 2px;
 }
 
 .color-picker .popover {
   position: absolute;
-  zIndex: 2;
+  z-index: 2;
   margin-top: -285px;
 }
 
 .color-picker .cover {
   position: fixed;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px;
-}
-
-.custom-form button {
-  height: 21px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .two-lists-ui {
@@ -190,8 +186,4 @@ select {
 
 .custom-form p {
   text-align: center;
-}
-
-.custom-form label {
-  margin: 5px;
 }

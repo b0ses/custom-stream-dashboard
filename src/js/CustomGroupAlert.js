@@ -46,7 +46,7 @@ class CustomGroupAlert extends Component {
     const { id } = event.target;
     const { value } = event.target;
 
-    if (id === 'thumbnail'){
+    if (id === 'thumbnail') {
       this.colorPickerRef.current.setColor(value);
     }
 
@@ -67,7 +67,7 @@ class CustomGroupAlert extends Component {
     });
   }
 
-  changeThumbnail(color){
+  changeThumbnail(color) {
     this.setState({
       thumbnail: color
     });
@@ -86,7 +86,7 @@ class CustomGroupAlert extends Component {
     const addGroupData = {
       group_name: name,
       alert_names: alerts,
-      thumbnail: thumbnail
+      thumbnail
     };
     api.request('alerts/save_group', addGroupData, refreshGroupAlerts);
 
@@ -96,7 +96,6 @@ class CustomGroupAlert extends Component {
       alerts: [],
       thumbnail: ''
     });
-
   }
 
   addToGroup(event) {
@@ -157,17 +156,17 @@ class CustomGroupAlert extends Component {
             </select>
           </div>
         </div>
-        <div className='custom-form'>
+        <div className="custom-form">
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="custom-alert">Name</label>
             <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
             <label htmlFor="custom-alert">Button</label>
-            <div className='alert-thumbnail'>
+            <div className="alert-thumbnail">
               <input id="thumbnail" type="text" value={thumbnail} placeholder="hex color" onChange={this.handleChange} />
-              <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail}/>
+              <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail} />
             </div>
             <p className="full-width">
-                <button type="button" onClick={this.saveGroupAlert}>Save</button>
+              <button type="button" onClick={this.saveGroupAlert}>Save</button>
             </p>
           </form>
         </div>
