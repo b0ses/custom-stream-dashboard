@@ -10,7 +10,7 @@ function isHex(color) {
 }
 
 function rgbToHex(color) {
-  return `# ${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1)}`; // eslint-disable-line no-bitwise
+  return `#${((1 << 24) + (color.r << 16) + (color.g << 8) + color.b).toString(16).slice(1)}`; // eslint-disable-line no-bitwise
 }
 
 function hexToRgb(hex) {
@@ -40,6 +40,11 @@ class ColorPicker extends React.Component {
         a: '100'
       }
     };
+
+    this.setColor = this.setColor.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   setColor(color) {
