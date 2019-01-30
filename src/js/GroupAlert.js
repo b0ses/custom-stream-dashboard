@@ -45,16 +45,29 @@ class GroupAlert extends Component {
     const { groupAlertData } = this.props;
     const { name } = groupAlertData;
     let { thumbnail } = groupAlertData;
+    let buttonBackgroundClass = '';
+    let alertButtonClass = null;
+    let backgroundStyle = {};
     if (thumbnail === '') {
       thumbnail = '#DDD';
     }
-    const style = {
-      backgroundColor: thumbnail
-    };
+    if (thumbnail[0] === '#') {
+      backgroundStyle = {
+        backgroundColor: thumbnail
+      };
+      buttonBackgroundClass = 'color-background';
+      alertButtonClass = 'button-overlay';
+    } else {
+      backgroundStyle = {
+        backgroundImage: `url(${thumbnail})`
+      };
+      buttonBackgroundClass = 'image-background';
+      alertButtonClass = 'transparent-overlay';
+    }
     return (
       <div className="div-alert">
-        <div className="circle button-background" style={style} />
-        <button className="alert-button" type="submit" value={name} onClick={this.groupAlert} />
+        <div className={`circle button-background ${buttonBackgroundClass}`} style={backgroundStyle} />
+        <button className={`alert-button ${alertButtonClass}`} type="submit" value={name} onClick={this.groupAlert} />
         <p title={name}>{ name }</p>
         <p>
           <a href="/" onClick={this.editGroupAlert}>edit</a>
