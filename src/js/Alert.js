@@ -65,7 +65,7 @@ class Alert extends Component {
     return (
       <div className="div-alert">
         <div className={`circle button-background ${buttonBackgroundClass}`} style={backgroundStyle} />
-        <button className={`alert-button ${alertButtonClass}`} type="submit" value={name} onClick={this.groupAlert} />
+        <button className={`alert-button ${alertButtonClass}`} type="submit" value={name} onClick={this.alert} />
         <p title={name}>{ name }</p>
         <p>
           <a href="/" onClick={this.editAlert}>edit</a>
