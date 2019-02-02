@@ -13,51 +13,62 @@ class Alert extends Component {
   }
 
   alert() {
-    const { alertData } = this.props;
+    const {
+      alertData: {
+        name
+      }
+    } = this.props;
     const savedAlertData = {
-      name: alertData.name
+      name
     };
     api.request('alerts/alert', savedAlertData);
   }
 
   editAlert(event) {
     event.preventDefault();
-    const { alertData } = this.props;
-    const { setEditAlert } = this.props;
+    const { alertData, setEditAlert } = this.props;
     setEditAlert(alertData);
   }
 
   removeAlert(event) {
     event.preventDefault();
-    const { alertData } = this.props;
-    if (window.confirm(`Are you sure you want to delete ${alertData.name}?`)) {
-      const { refreshAlerts } = this.props;
+    const {
+      alertData: {
+        name
+      },
+      refreshAlerts
+    } = this.props;
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
       const removeData = {
-        name: alertData.name
+        name
       };
       api.request('alerts/remove_alert', removeData, refreshAlerts);
     }
   }
 
   render() {
-    const { alertData } = this.props;
-    const { name } = alertData;
-    let { thumbnail } = alertData;
+    const {
+      alertData: {
+        name,
+        thumbnail
+      }
+    } = this.props;
     let buttonBackgroundClass = '';
     let alertButtonClass = null;
     let backgroundStyle = {};
-    if (thumbnail === '') {
-      thumbnail = '#DDD';
+    let buttonThumbnail = thumbnail;
+    if (buttonThumbnail === '') {
+      buttonThumbnail = '#DDD';
     }
-    if (thumbnail[0] === '#') {
+    if (buttonThumbnail[0] === '#') {
       backgroundStyle = {
-        backgroundColor: thumbnail
+        backgroundColor: buttonThumbnail
       };
       buttonBackgroundClass = 'color-background';
       alertButtonClass = 'button-overlay';
     } else {
       backgroundStyle = {
-        backgroundImage: `url(${thumbnail})`
+        backgroundImage: `url(${buttonThumbnail})`
       };
       buttonBackgroundClass = 'image-background';
       alertButtonClass = 'transparent-overlay';

@@ -26,8 +26,12 @@ class CustomAlert extends Component {
   }
 
   handleChange(event) {
-    const { id } = event.target;
-    const { value } = event.target;
+    const {
+      target: {
+        id,
+        value
+      }
+    } = event;
 
     if (id === 'thumbnail') {
       this.colorPickerRef.current.setColor(value);
@@ -84,12 +88,14 @@ class CustomAlert extends Component {
   }
 
   render() {
-    const { name } = this.state;
-    const { text } = this.state;
-    const { sound } = this.state;
-    const { duration } = this.state;
-    const { effect } = this.state;
-    const { thumbnail } = this.state;
+    const {
+      name,
+      text,
+      sound,
+      duration,
+      effect,
+      thumbnail
+    } = this.state;
     return (
       <div className="custom-form">
         <form onSubmit={this.handleSubmit}>

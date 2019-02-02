@@ -42,24 +42,28 @@ class GroupAlert extends Component {
   }
 
   render() {
-    const { groupAlertData } = this.props;
-    const { name } = groupAlertData;
-    let { thumbnail } = groupAlertData;
+    const {
+      groupAlertData: {
+        name,
+        thumbnail
+      }
+    } = this.props;
+    let buttonThumnail = thumbnail;
     let buttonBackgroundClass = '';
     let alertButtonClass = null;
     let backgroundStyle = {};
-    if (thumbnail === '') {
-      thumbnail = '#DDD';
+    if (buttonThumnail === '') {
+      buttonThumnail = '#DDD';
     }
-    if (thumbnail[0] === '#') {
+    if (buttonThumnail[0] === '#') {
       backgroundStyle = {
-        backgroundColor: thumbnail
+        backgroundColor: buttonThumnail
       };
       buttonBackgroundClass = 'color-background';
       alertButtonClass = 'button-overlay';
     } else {
       backgroundStyle = {
-        backgroundImage: `url(${thumbnail})`
+        backgroundImage: `url(${buttonThumnail})`
       };
       buttonBackgroundClass = 'image-background';
       alertButtonClass = 'transparent-overlay';

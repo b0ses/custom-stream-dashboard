@@ -81,16 +81,18 @@ class GroupAlerts extends Component {
   }
 
   updateSearch(event) {
-    const { value } = event.target;
+    const {
+      target: {
+        value
+      }
+    } = event;
     this.setState({
       search: value
     });
   }
 
   render() {
-    const { groupAlerts } = this.state;
-    const { allAlerts } = this.state;
-    const { search } = this.state;
+    const { groupAlerts, allAlerts, search } = this.state;
     const filteredAlerts = filterGroupAlerts(groupAlerts, search);
     return (
       <div>

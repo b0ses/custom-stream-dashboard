@@ -67,7 +67,11 @@ class Alerts extends Component {
   }
 
   updateSearch(event) {
-    const { value } = event.target;
+    const {
+      target: {
+        value
+      }
+    } = event;
     this.setState({
       search: value
     });
@@ -78,8 +82,7 @@ class Alerts extends Component {
   }
 
   render() {
-    const { alerts } = this.state;
-    const { search } = this.state;
+    const { alerts, search } = this.state;
     const filteredAlerts = filterAlerts(alerts, search);
     return (
       <div>

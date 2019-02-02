@@ -43,8 +43,12 @@ class CustomGroupAlert extends Component {
   }
 
   handleChange(event) {
-    const { id } = event.target;
-    const { value } = event.target;
+    const {
+      target: {
+        id,
+        value
+      }
+    } = event;
 
     if (id === 'thumbnail') {
       this.colorPickerRef.current.setColor(value);
@@ -80,9 +84,7 @@ class CustomGroupAlert extends Component {
 
   saveGroupAlert() {
     const { refreshGroupAlerts } = this.props;
-    const { name } = this.state;
-    const { alerts } = this.state;
-    const { thumbnail } = this.state;
+    const { name, alerts, thumbnail } = this.state;
     const addGroupData = {
       group_name: name,
       alert_names: alerts,
@@ -100,8 +102,7 @@ class CustomGroupAlert extends Component {
 
   addToGroup(event) {
     event.preventDefault();
-    const { addAlerts } = this.state;
-    const { alerts } = this.state;
+    const { addAlerts, alerts } = this.state;
     this.setState({
       alerts: [...alerts, ...addAlerts],
       addAlerts: []
@@ -110,8 +111,7 @@ class CustomGroupAlert extends Component {
 
   removeFromGroup(event) {
     event.preventDefault();
-    const { removeAlerts } = this.state;
-    const { alerts } = this.state;
+    const { removeAlerts, alerts } = this.state;
     const newAlerts = [...alerts];
 
     for (let i = 0; i < removeAlerts.length; i += 1) {
@@ -130,12 +130,14 @@ class CustomGroupAlert extends Component {
 
   render() {
     const { allAlerts } = this.props;
-    const { alerts } = this.state;
+    const {
+      alerts,
+      addAlerts,
+      removeAlerts,
+      name,
+      thumbnail
+    } = this.state;
     const availAlerts = allAlerts.filter(x => !alerts.includes(x));
-    const { addAlerts } = this.state;
-    const { removeAlerts } = this.state;
-    const { name } = this.state;
-    const { thumbnail } = this.state;
     return (
       <div>
         <div className="two-lists-ui">
