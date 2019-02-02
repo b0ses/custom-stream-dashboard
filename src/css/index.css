@@ -20,8 +20,15 @@ select {
   border-color: #444;
 }
 
-.saved-alerts {
-  width: 100%;
+.saved-alerts,
+.saved-group-alerts {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.search {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .grid {

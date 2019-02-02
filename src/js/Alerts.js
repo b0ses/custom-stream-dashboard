@@ -4,18 +4,41 @@ import api from './helpers/api';
 import CustomAlert from './CustomAlert';
 import Alert from './Alert';
 
+function filterAlerts(alerts, search) {
+  const searchTerms = search.split(' ');
+  const filtered = alerts.filter((alert) => {
+    const {
+      props: {
+        alertData: {
+          name
+        }
+      }
+    } = alert;
+    let match = false;
+    for (let i = 0; i < searchTerms.length; i += 1) {
+      if (name.indexOf(searchTerms[i]) > -1) {
+        match = true;
+      }
+    }
+    return match;
+  });
+  return filtered;
+}
+
 class Alerts extends Component {
   constructor() {
     super();
 
     this.state = {
-      alerts: []
+      alerts: [],
+      search: ''
     };
     this.customAlert = React.createRef();
 
     this.refreshAlerts = this.refreshAlerts.bind(this);
     this.setEditAlert = this.setEditAlert.bind(this);
     this.setAlerts = this.setAlerts.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
   }
 
   componentDidMount() {
@@ -43,22 +66,35 @@ class Alerts extends Component {
     this.customAlert.current.prePopulate(editAlert);
   }
 
+  updateSearch(event) {
+    const { value } = event.target;
+    this.setState({
+      search: value
+    });
+  }
+
   refreshAlerts() {
     api.request('alerts/', null, this.setAlerts);
   }
 
   render() {
     const { alerts } = this.state;
+    const { search } = this.state;
+    const filteredAlerts = filterAlerts(alerts, search);
     return (
       <div>
+        <h3>Alerts</h3>
         <div className="saved-alerts">
-          <h3>Alerts</h3>
+          <form className="search">
+            <label htmlFor="custom-alert">Search</label>
+            <input id="search-alerts" type="text" value={search} onChange={this.updateSearch} />
+          </form>
           <div className="grid">
-            { alerts }
+            { filteredAlerts }
           </div>
         </div>
+        <h3>New Alert</h3>
         <div className="custom-alert">
-          <h3>New Alert</h3>
           <CustomAlert ref={this.customAlert} refreshAlerts={this.refreshAlerts} />
         </div>
       </div>
