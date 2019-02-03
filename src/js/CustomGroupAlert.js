@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { goToAnchor } from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 import ColorPicker from './helpers/ColorPicker';
@@ -98,6 +99,7 @@ class CustomGroupAlert extends Component {
       alerts: [],
       thumbnail: ''
     });
+    goToAnchor('saved-group-alerts');
   }
 
   addToGroup(event) {

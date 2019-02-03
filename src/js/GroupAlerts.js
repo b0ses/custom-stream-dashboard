@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ScrollableAnchor from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 import CustomGroupAlert from './CustomGroupAlert';
@@ -17,7 +18,7 @@ function filterGroupAlerts(groupAlerts, search) {
     } = alert;
     let match = false;
     for (let i = 0; i < searchTerms.length; i += 1) {
-      if (name.indexOf(searchTerms[i]) > -1) {
+      if (name.toLowerCase().indexOf(searchTerms[i].toLowerCase()) > -1) {
         match = true;
       }
     }
@@ -96,7 +97,9 @@ class GroupAlerts extends Component {
     const filteredAlerts = filterGroupAlerts(groupAlerts, search);
     return (
       <div>
-        <h3>Group Alerts</h3>
+        <ScrollableAnchor id="saved-group-alerts">
+          <h3>Group Alerts</h3>
+        </ScrollableAnchor>
         <div className="saved-group-alerts">
           <form className="search">
             <label htmlFor="custom-alert">Search</label>
@@ -106,7 +109,9 @@ class GroupAlerts extends Component {
             { filteredAlerts }
           </div>
         </div>
-        <h3>New Group Alert</h3>
+        <ScrollableAnchor id="custom-group-alert">
+          <h3>New Group Alert</h3>
+        </ScrollableAnchor>
         <div className="custom-group-alert">
           <CustomGroupAlert
             ref={this.customGroupAlert}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { goToAnchor } from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 
@@ -28,6 +29,7 @@ class Alert extends Component {
     event.preventDefault();
     const { alertData, setEditAlert } = this.props;
     setEditAlert(alertData);
+    goToAnchor('custom-alert');
   }
 
   removeAlert(event) {
