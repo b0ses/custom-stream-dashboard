@@ -9,7 +9,7 @@
     "react-dom": "^16.4.0",
     "react-scripts": "2.0.3",
     "reactcss": "^1.2.3",
-    "terser": "^3.14.1"
+    "terser": "3.14.1"
   },
   "scripts": {
     "start": "HOST=127.0.0.1 PORT=8080 react-scripts start",
@@ -30,7 +30,7 @@
     "eslint-plugin-react": "^7.10.0",
     "stylelint": "^9.4.0",
     "stylelint-config-standard": "^18.2.0",
-    "terser": "^3.14.1"
+    "terser": "3.14.1"
   },
   "browserslist": [
     ">0.2%",
