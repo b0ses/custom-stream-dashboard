@@ -17,7 +17,7 @@ function filterGroupAlerts(groupAlerts, search) {
     } = alert;
     let match = false;
     for (let i = 0; i < searchTerms.length; i += 1) {
-      if (name.indexOf(searchTerms[i]) > -1) {
+      if (name.toLowerCase().indexOf(searchTerms[i].toLowerCase()) > -1) {
         match = true;
       }
     }
