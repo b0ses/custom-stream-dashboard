@@ -4,13 +4,36 @@ import api from './helpers/api';
 import CustomGroupAlert from './CustomGroupAlert';
 import GroupAlert from './GroupAlert';
 
+
+function filterGroupAlerts(groupAlerts, search) {
+  const searchTerms = search.split(' ');
+  const filtered = groupAlerts.filter((alert) => {
+    const {
+      props: {
+        groupAlertData: {
+          name
+        }
+      }
+    } = alert;
+    let match = false;
+    for (let i = 0; i < searchTerms.length; i += 1) {
+      if (name.indexOf(searchTerms[i]) > -1) {
+        match = true;
+      }
+    }
+    return match;
+  });
+  return filtered;
+}
+
 class GroupAlerts extends Component {
   constructor() {
     super();
 
     this.state = {
       groupAlerts: [],
-      allAlerts: []
+      allAlerts: [],
+      search: ''
     };
     this.customGroupAlert = React.createRef();
 
@@ -18,6 +41,7 @@ class GroupAlerts extends Component {
     this.setEditGroupAlert = this.setEditGroupAlert.bind(this);
     this.setGroupAlerts = this.setGroupAlerts.bind(this);
     this.setAlerts = this.setAlerts.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
   }
 
   componentDidMount() {
@@ -56,19 +80,34 @@ class GroupAlerts extends Component {
     api.request('alerts/groups', null, this.setGroupAlerts);
   }
 
+  updateSearch(event) {
+    const {
+      target: {
+        value
+      }
+    } = event;
+    this.setState({
+      search: value
+    });
+  }
+
   render() {
-    const { groupAlerts } = this.state;
-    const { allAlerts } = this.state;
+    const { groupAlerts, allAlerts, search } = this.state;
+    const filteredAlerts = filterGroupAlerts(groupAlerts, search);
     return (
       <div>
+        <h3>Group Alerts</h3>
         <div className="saved-group-alerts">
-          <h3>Group Alerts</h3>
+          <form className="search">
+            <label htmlFor="custom-alert">Search</label>
+            <input id="search-group-alerts" type="text" value={search} onChange={this.updateSearch} />
+          </form>
           <div className="grid">
-            { groupAlerts }
+            { filteredAlerts }
           </div>
         </div>
+        <h3>New Group Alert</h3>
         <div className="custom-group-alert">
-          <h3>New Group Alert</h3>
           <CustomGroupAlert
             ref={this.customGroupAlert}
             refreshGroupAlerts={this.refreshGroupAlerts}
