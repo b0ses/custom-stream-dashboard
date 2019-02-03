@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ScrollableAnchor from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 import CustomAlert from './CustomAlert';
@@ -86,7 +87,9 @@ class Alerts extends Component {
     const filteredAlerts = filterAlerts(alerts, search);
     return (
       <div>
-        <h3>Alerts</h3>
+        <ScrollableAnchor id="saved-alerts">
+          <h3>Alerts</h3>
+        </ScrollableAnchor>
         <div className="saved-alerts">
           <form className="search">
             <label htmlFor="custom-alert">Search</label>
@@ -96,7 +99,9 @@ class Alerts extends Component {
             { filteredAlerts }
           </div>
         </div>
-        <h3>New Alert</h3>
+        <ScrollableAnchor id="custom-alert">
+          <h3>New Alert</h3>
+        </ScrollableAnchor>
         <div className="custom-alert">
           <CustomAlert ref={this.customAlert} refreshAlerts={this.refreshAlerts} />
         </div>
