@@ -16,10 +16,6 @@ export default function Overlay() {
           URL (for OBS BrowserSource):
           <a href={server} target="_blank" rel="noopener noreferrer">{server}</a>
         </p>
-        <p>
-          Note&#58; If it&#39;s quiet&#44; click inside
-          &#40;Chrome needs user interaction to auto&#45;play&#41;
-        </p>
         <iframe id="overlay-iframe" title="overlay-iframe" src={server} height="50" width="500" scrolling="no" />
       </div>
     </div>
