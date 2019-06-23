@@ -21,7 +21,8 @@ select {
 }
 
 .saved-alerts,
-.saved-group-alerts {
+.saved-group-alerts,
+.real-time-overlay {
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -209,4 +210,8 @@ select {
 
 .custom-form p {
   text-align: center;
+}
+
+.real-time-overlay iframe {
+  overflow-y: hidden;
 }
