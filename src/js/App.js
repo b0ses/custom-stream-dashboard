@@ -6,7 +6,7 @@ import Overlay from './Overlay';
 
 const App = () => (
   <div>
-    {/*<Overlay />*/}
+    <Overlay />
     <GroupAlerts />
     <Alerts />
   </div>
