@@ -13,7 +13,7 @@ export default function Overlay() {
       </ScrollableAnchor>
       <div className="real-time-overlay">
         <p>
-          URL (for OBS BrowserSource):
+          URL (for OBS BrowserSource):&nbsp;
           <a href={server} target="_blank" rel="noopener noreferrer">{server}</a>
         </p>
         <iframe id="overlay-iframe" title="overlay-iframe" src={server} height="50" width="500" scrolling="no" />
