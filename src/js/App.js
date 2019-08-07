@@ -1,15 +1,8 @@
 import React from 'react';
-
-import Alerts from './Alerts';
-import GroupAlerts from './GroupAlerts';
-import Overlay from './Overlay';
+import Router from './Router';
 
 const App = () => (
-  <div>
-    <Overlay />
-    <GroupAlerts />
-    <Alerts />
-  </div>
+  <Router />
 );
 
 export default App;
