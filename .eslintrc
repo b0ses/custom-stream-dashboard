@@ -17,6 +17,7 @@
     'no-console': 'off',
     "no-param-reassign": [2, { "props": false }],
     "no-alert": 'off',
+    "no-unused-vars": ["error", { "args": "none" }],
     "jsx-a11y/label-has-for": [ 2, {
       "required": {
           "every": [ "id" ]
