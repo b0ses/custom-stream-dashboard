@@ -1,12 +1,14 @@
 import React from 'react';
 
+const kGlobalConstants = require('./Settings').default;
+
 function logout() {
   localStorage.clear();
 }
 
 const UserDetails = () => {
   const userID = localStorage.getItem('id');
-  if (userID != null) {
+  if (userID != null && kGlobalConstants.LOGIN) {
     const username = localStorage.getItem('username');
     const picture = localStorage.getItem('picture');
     const backgroundStyle = {

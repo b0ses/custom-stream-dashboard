@@ -8,7 +8,7 @@ const jwtDecode = require('jwt-decode');
 const kGlobalConstants = require('./Settings').default;
 
 export function isAuthenticated() {
-  return (localStorage.getItem('id') != null);
+  return (localStorage.getItem('id') != null || !kGlobalConstants.LOGIN);
 }
 
 function gatherUserDetails(idToken) {
