@@ -1,62 +1,64 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 // import { Receiver } from './Login';
 import { OauthReceiver } from 'react-oauth-flow';
 
-var jwtDecode = require('jwt-decode');
+const jwtDecode = require('jwt-decode');
 const kGlobalConstants = require('./Settings').default;
 
-export const isAuthenticated = () => {
-  return (localStorage.getItem('id') != null)
-};
+export function isAuthenticated() {
+  return (localStorage.getItem('id') != null);
+}
+
+function gatherUserDetails(idToken) {
+  const userDetails = jwtDecode(idToken);
+  const { sub } = userDetails;
+  const emailVerified = userDetails.email_verified;
+  const preferredUsername = userDetails.preferred_username;
+  const { picture } = userDetails;
+  return {
+    id: sub,
+    emailVerified,
+    username: preferredUsername,
+    picture
+  };
+}
+
+function handleError(error) {
+  console.error('An error occured');
+  console.error(error.message);
+}
 
 class Auth extends Component {
-  state = { redirectToReferrer: false };
-
-  gatherUserDetails(idToken) {
-    const userDetails = jwtDecode(idToken);
-    const { sub } = userDetails;
-    const { email_verified } = userDetails;
-    const { preferred_username } = userDetails;
-    const { picture } = userDetails;
-    return {
-      id: sub,
-      email_verified: email_verified,
-      username: preferred_username,
-      picture: picture
-    }
+  constructor(props) {
+    super(props);
+    this.state = { redirectToReferrer: false };
   }
 
-  handleSuccess = async (accessToken, { response, state }) => {
-    const { refresh_token } = response;
-    const { id_token } = response;
-    const userDetails = this.gatherUserDetails(id_token);
-    const { email_verified } = userDetails;
-    if (email_verified) {
+  async handleSuccess(accessToken, { response, state }) {
+    const refreshToken = response.refresh_token;
+    const idToken = response.id_token;
+    const userDetails = gatherUserDetails(idToken);
+    const { emailVerified } = userDetails;
+    if (emailVerified) {
       console.log('Successfully authorized');
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refresh_token);
-      Object.keys(userDetails).map(key =>
-        localStorage.setItem(key, userDetails[key])
-      );
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      Object.keys(userDetails).map(key => localStorage.setItem(key, userDetails[key]));
       this.setState({ redirectToReferrer: true });
-    }
-    else {
+    } else {
       const error = {
-        message: "Email not verified"
-      }
-      this.handleError(error);
+        message: 'Email not verified'
+      };
+      handleError(error);
     }
   }
- 
-  handleError = error => {
-    console.error('An error occured');
-    console.error(error.message);
-  }
- 
+
   render() {
-    let { from } = this.props.location.state || { from: { pathname: "/" } };
-    let { redirectToReferrer } = this.state;
+    const { location } = this.props;
+    const { from } = location.state || { from: { pathname: '/' } };
+    const { redirectToReferrer } = this.state;
 
     if (redirectToReferrer) {
       return <Redirect to={from} />;
@@ -69,12 +71,15 @@ class Auth extends Component {
         clientSecret={kGlobalConstants.CLIENT_SECRET}
         redirectUri={kGlobalConstants.REDIRECT_URI}
         onAuthSuccess={this.handleSuccess}
-        onAuthError={this.handleError}
+        onAuthError={handleError}
         render={({ processing, state, error }) => (
           <div className="login">
             {processing && <p>Authorizing...</p>}
             {error && (
-              <p className="error">An error occured: {error.message}</p>
+              <p className="error">
+                An error occured:
+                {error.message}
+              </p>
             )}
           </div>
         )}
@@ -82,5 +87,15 @@ class Auth extends Component {
     );
   }
 }
+
+Auth.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.string
+  })
+};
+
+Auth.defaultProps = {
+  location: null
+};
 
 export default Auth;

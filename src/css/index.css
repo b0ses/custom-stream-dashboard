@@ -229,6 +229,7 @@ select {
 #user-details div {
   float: left;
 }
+
 #user-details p {
   margin-top: 0;
   margin-bottom: 5px;
@@ -245,7 +246,7 @@ select {
 }
 
 .login {
-  text-align:center;
+  text-align: center;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
@@ -256,5 +257,5 @@ select {
   text-decoration: none;
   display: inline-block;
   color: white;
-  background-color: #6441A4;
+  background-color: #6441a4;
 }

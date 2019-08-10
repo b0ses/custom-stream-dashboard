@@ -1,35 +1,31 @@
-import React, { Component } from 'react';
-import Auth, { sharedAuth } from './Auth';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
 
-class UserDetails extends Component {
+function logout() {
+  localStorage.clear();
+}
 
-  logout() {
-    localStorage.clear();
-  }
-
-  render() {
-    const userID = localStorage.getItem('id');
-    if (userID != null) {
-      const username = localStorage.getItem('username');
-      const picture = localStorage.getItem('picture');
-      const backgroundStyle = {
-        backgroundImage: `url(${picture})`
-      };
-      return (
-        <div id="user-details">
-          <div>
-            <p> Logged in as { username } </p>
-            <a href="/" onClick={this.logout}>Logout</a>
-          </div>
-          <div className={`circle button-background image-background`} style={backgroundStyle} /> 
+const UserDetails = () => {
+  const userID = localStorage.getItem('id');
+  if (userID != null) {
+    const username = localStorage.getItem('username');
+    const picture = localStorage.getItem('picture');
+    const backgroundStyle = {
+      backgroundImage: `url(${picture})`
+    };
+    return (
+      <div id="user-details">
+        <div>
+          <p>
+            Logged in as
+            { username }
+          </p>
+          <a href="/" onClick={logout}>Logout</a>
         </div>
-      )
-    }
-    else {
-      return (null)
-    }
+        <div className="circle button-background image-background" style={backgroundStyle} />
+      </div>
+    );
   }
+  return (null);
 };
 
 export default UserDetails;
