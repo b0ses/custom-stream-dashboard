@@ -34,6 +34,8 @@ class Auth extends Component {
   constructor(props) {
     super(props);
     this.state = { redirectToReferrer: false };
+
+    this.handleSuccess = this.handleSuccess.bind(this);
   }
 
   async handleSuccess(accessToken, { response, state }) {

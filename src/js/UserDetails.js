@@ -16,7 +16,7 @@ const UserDetails = () => {
       <div id="user-details">
         <div>
           <p>
-            Logged in as
+            Logged in as&nbsp;
             { username }
           </p>
           <a href="/" onClick={logout}>Logout</a>
