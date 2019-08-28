@@ -46,7 +46,8 @@ class Alerts extends Component {
     this.refreshAlerts();
   }
 
-  setAlerts(data) {
+  setAlerts(resp) {
+    const { data } = resp;
     const alerts = [];
     for (let i = 0; i < data.length; i += 1) {
       const alert = (<Alert
@@ -79,7 +80,7 @@ class Alerts extends Component {
   }
 
   refreshAlerts() {
-    api.request('alerts/', null, this.setAlerts);
+    api.request('alerts/', null).then(this.setAlerts);
   }
 
   render() {

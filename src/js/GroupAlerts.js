@@ -49,13 +49,15 @@ class GroupAlerts extends Component {
     this.refreshGroupAlerts();
   }
 
-  setAlerts(data) {
+  setAlerts(resp) {
+    const { data } = resp;
     this.setState({
       allAlerts: data.map(alert => alert.name)
     });
   }
 
-  setGroupAlerts(data) {
+  setGroupAlerts(resp) {
+    const { data } = resp;
     const groupAlerts = [];
     for (let i = 0; i < data.length; i += 1) {
       const groupAlert = (<GroupAlert
@@ -77,8 +79,8 @@ class GroupAlerts extends Component {
   }
 
   refreshGroupAlerts() {
-    api.request('alerts/', null, this.setAlerts);
-    api.request('alerts/groups', null, this.setGroupAlerts);
+    api.request('alerts/', null).then(this.setAlerts);
+    api.request('alerts/groups', null).then(this.setGroupAlerts);
   }
 
   updateSearch(event) {

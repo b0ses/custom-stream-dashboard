@@ -1,6 +1,6 @@
 const kGlobalConstants = require('../Settings').default;
 
-function request(endpoint, data, callback) {
+function request(endpoint, data) {
   const server = `${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}/`;
   const type = data ? 'POST' : 'GET';
   const requestObj = {
@@ -8,15 +8,18 @@ function request(endpoint, data, callback) {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
-    }
+    },
+    credentials: 'include'
   };
   if (data) {
     requestObj.body = JSON.stringify(data);
   }
-  const responseObj = fetch(server + endpoint, requestObj).then(response => response.json());
-  if (callback) {
-    responseObj.then(responseData => callback(responseData));
-  }
+  return fetch(server + endpoint, requestObj)
+    .then(response => response.json()
+      .then(respData => ({
+        data: respData,
+        status: response.status
+      })));
 }
 
 export default { request };

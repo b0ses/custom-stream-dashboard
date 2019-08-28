@@ -75,7 +75,7 @@ class CustomAlert extends Component {
         obj[key] = alertData[key];
         return obj;
       }, {});
-    api.request('alerts/add_alert', filtered, refreshAlerts);
+    api.request('alerts/add_alert', filtered).then(refreshAlerts);
 
     // clear after saving
     this.setState({
