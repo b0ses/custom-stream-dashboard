@@ -78,7 +78,8 @@ class CustomGroupAlert extends Component {
     });
   }
 
-  prePopulate(data) {
+  prePopulate(resp) {
+    const { data } = resp;
     this.setState(data);
     this.colorPickerRef.current.setColor(data.thumbnail);
   }
@@ -91,7 +92,7 @@ class CustomGroupAlert extends Component {
       alert_names: alerts,
       thumbnail
     };
-    api.request('alerts/save_group', addGroupData, refreshGroupAlerts);
+    api.request('alerts/save_group', addGroupData).then(refreshGroupAlerts);
 
     // clear after saving
     this.setState({

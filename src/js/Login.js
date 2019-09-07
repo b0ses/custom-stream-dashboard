@@ -17,9 +17,11 @@ const kGlobalConstants = require('./Settings').default;
 
 const claims = {
   id_token: {
-    preferred_username: null,
-    picture: null,
     email_verified: null
+  },
+  userinfo: {
+    preferred_username: null,
+    picture: null
   }
 };
 
