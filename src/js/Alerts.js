@@ -5,27 +5,6 @@ import api from './helpers/api';
 import CustomAlert from './CustomAlert';
 import Alert from './Alert';
 
-function filterAlerts(alerts, search) {
-  const searchTerms = search.split(' ');
-  const filtered = alerts.filter((alert) => {
-    const {
-      props: {
-        alertData: {
-          name
-        }
-      }
-    } = alert;
-    let match = false;
-    for (let i = 0; i < searchTerms.length; i += 1) {
-      if (name.toLowerCase().indexOf(searchTerms[i].toLowerCase()) > -1) {
-        match = true;
-      }
-    }
-    return match;
-  });
-  return filtered;
-}
-
 class Alerts extends Component {
   constructor() {
     super();
@@ -77,15 +56,19 @@ class Alerts extends Component {
     this.setState({
       search: value
     });
+    this.refreshAlerts(value);
   }
 
-  refreshAlerts() {
-    api.request('alerts/', null).then(this.setAlerts);
+  refreshAlerts(search) {
+    let queryParams = '';
+    if (search){
+      queryParams = '?search=' + search;
+    }
+    api.request('alerts/' + queryParams, null).then(this.setAlerts);
   }
 
   render() {
     const { alerts, search } = this.state;
-    const filteredAlerts = filterAlerts(alerts, search);
     return (
       <div>
         <ScrollableAnchor id="saved-alerts">
@@ -97,7 +80,7 @@ class Alerts extends Component {
             <input id="search-alerts" type="text" value={search} onChange={this.updateSearch} />
           </form>
           <div className="grid">
-            { filteredAlerts }
+            { alerts }
           </div>
         </div>
         <ScrollableAnchor id="custom-alert">
