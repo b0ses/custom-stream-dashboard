@@ -44,7 +44,11 @@ class GroupAlerts extends Component {
     });
   }
 
-  generateGroupAlerts(groupAlertData){
+  setEditGroupAlert(editGroupAlert) {
+    this.customGroupAlert.current.prePopulate(editGroupAlert);
+  }
+
+  generateGroupAlerts(groupAlertData) {
     const groupAlerts = [];
     for (let i = 0; i < groupAlertData.length; i += 1) {
       const groupAlert = (<GroupAlert
@@ -59,10 +63,6 @@ class GroupAlerts extends Component {
     return groupAlerts;
   }
 
-  setEditGroupAlert(editGroupAlert) {
-    this.customGroupAlert.current.prePopulate(editGroupAlert);
-  }
-
   refreshGroupAlerts() {
     api.request('alerts/', null).then(this.setAlerts);
     api.request('alerts/groups', null).then(this.setGroupAlerts);
@@ -70,7 +70,7 @@ class GroupAlerts extends Component {
 
   render() {
     const { groupAlertData, allAlerts } = this.state;
-    const groupAlerts = this.generateGroupAlerts(groupAlertData); 
+    const groupAlerts = this.generateGroupAlerts(groupAlertData);
     return (
       <div>
         <ScrollableAnchor id="saved-group-alerts">

@@ -25,7 +25,7 @@ select {
   border-color: #444;
 }
 
-button:disabled{
+button:disabled {
   color: #666;
 }
 

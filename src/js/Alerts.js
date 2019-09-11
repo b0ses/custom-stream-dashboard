@@ -5,8 +5,8 @@ import api from './helpers/api';
 import CustomAlert from './CustomAlert';
 import Alert from './Alert';
 
-const kGlobalConstants = require('./Settings').default;
 const querystring = require('querystring');
+const kGlobalConstants = require('./Settings').default;
 
 
 class Alerts extends Component {
@@ -47,6 +47,10 @@ class Alerts extends Component {
     });
   }
 
+  setEditAlert(editAlert) {
+    this.customAlert.current.prePopulate(editAlert);
+  }
+
   generateAlerts(alertData) {
     const alerts = [];
     for (let i = 0; i < alertData.length; i += 1) {
@@ -62,10 +66,6 @@ class Alerts extends Component {
     return alerts;
   }
 
-  setEditAlert(editAlert) {
-    this.customAlert.current.prePopulate(editAlert);
-  }
-
   updateSearch(event) {
     const {
       target: {
@@ -75,7 +75,7 @@ class Alerts extends Component {
     this.setState({
       search: value,
       page: 1
-    }, this.refreshAlerts);;
+    }, this.refreshAlerts);
   }
 
   updateSort(event) {
@@ -87,19 +87,19 @@ class Alerts extends Component {
     this.setState({
       sort: value,
       page: 1
-    }, this.refreshAlerts);;
+    }, this.refreshAlerts);
   }
 
   nextPage() {
     const { page } = this.state;
     this.setState({
       page: page + 1
-    }, this.refreshAlerts);;
+    }, this.refreshAlerts);
   }
 
   previousPage() {
     const { page } = this.state;
-    if (page > 1){
+    if (page > 1) {
       this.setState({
         page: page - 1
       }, this.refreshAlerts);
@@ -107,21 +107,32 @@ class Alerts extends Component {
   }
 
   refreshAlerts() {
-    const { search, sort, limit, page } = this.state;
-    let params = {
+    const {
+      search,
+      sort,
+      limit,
+      page
+    } = this.state;
+    const params = {
       search,
       sort,
       page,
       limit
-    }
-    const queryParams = '?' + querystring.stringify(params);
-    api.request('alerts/' + queryParams, null).then(this.setAlerts);
+    };
+    const queryParams = `?${querystring.stringify(params)}`;
+    api.request(`alerts/${queryParams}`, null).then(this.setAlerts);
   }
 
   render() {
-    const { alertData, search, sort, page, limit } = this.state;
-    const prevButtonDisabled = (page === 1)
-    const nextButtonDisabled = (alertData.length < limit)
+    const {
+      alertData,
+      search,
+      sort,
+      page,
+      limit
+    } = this.state;
+    const prevButtonDisabled = (page === 1);
+    const nextButtonDisabled = (alertData.length < limit);
     const alerts = this.generateAlerts(alertData);
     return (
       <div>
@@ -137,9 +148,9 @@ class Alerts extends Component {
               <option value="name">Alphabetical</option>
               <option value="-name">Reverse Alphabetical</option>
             </select>
-            <button type="button" disabled={ prevButtonDisabled } onClick={this.previousPage}>Previous</button>
+            <button type="button" disabled={prevButtonDisabled} onClick={this.previousPage}>Previous</button>
             &nbsp;
-            <button type="button" disabled={ nextButtonDisabled } onClick={this.nextPage}>Next</button>
+            <button type="button" disabled={nextButtonDisabled} onClick={this.nextPage}>Next</button>
           </form>
           <div className="grid">
             { alerts }
