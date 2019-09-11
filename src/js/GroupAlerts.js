@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ScrollableAnchor from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 import CustomGroupAlert from './CustomGroupAlert';
@@ -73,17 +72,13 @@ class GroupAlerts extends Component {
     const groupAlerts = this.generateGroupAlerts(groupAlertData);
     return (
       <div>
-        <ScrollableAnchor id="saved-group-alerts">
-          <h3>Group Alerts</h3>
-        </ScrollableAnchor>
+        <h3>Group Alerts</h3>
         <div className="saved-group-alerts">
           <div className="grid">
             { groupAlerts }
           </div>
         </div>
-        <ScrollableAnchor id="custom-group-alert">
-          <h3>New Group Alert</h3>
-        </ScrollableAnchor>
+        <h3>New Group Alert</h3>
         <div className="custom-group-alert">
           <CustomGroupAlert
             ref={this.customGroupAlert}
