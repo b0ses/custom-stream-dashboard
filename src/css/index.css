@@ -25,6 +25,10 @@ select {
   border-color: #444;
 }
 
+button:disabled{
+  color: #666;
+}
+
 .saved-alerts,
 .saved-group-alerts,
 .real-time-overlay {

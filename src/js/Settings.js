@@ -5,7 +5,9 @@ const kGlobalConstants = {
   // Twitch login settings
   LOGIN: false,
   CLIENT_ID: '',
-  REDIRECT_URI: ''
+  REDIRECT_URI: '',
+
+  PAGE_LIMIT: 20
 };
 
 export default kGlobalConstants;
