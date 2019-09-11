@@ -1,48 +1,24 @@
 import React, { Component } from 'react';
-import ScrollableAnchor from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 import CustomGroupAlert from './CustomGroupAlert';
 import GroupAlert from './GroupAlert';
-
-
-function filterGroupAlerts(groupAlerts, search) {
-  const searchTerms = search.split(' ');
-  const filtered = groupAlerts.filter((alert) => {
-    const {
-      props: {
-        groupAlertData: {
-          name
-        }
-      }
-    } = alert;
-    let match = false;
-    for (let i = 0; i < searchTerms.length; i += 1) {
-      if (name.toLowerCase().indexOf(searchTerms[i].toLowerCase()) > -1) {
-        match = true;
-      }
-    }
-    return match;
-  });
-  return filtered;
-}
 
 class GroupAlerts extends Component {
   constructor() {
     super();
 
     this.state = {
-      groupAlerts: [],
-      allAlerts: [],
-      search: ''
+      groupAlertData: [],
+      allAlerts: []
     };
     this.customGroupAlert = React.createRef();
 
     this.refreshGroupAlerts = this.refreshGroupAlerts.bind(this);
+    this.generateGroupAlerts = this.generateGroupAlerts.bind(this);
     this.setEditGroupAlert = this.setEditGroupAlert.bind(this);
     this.setGroupAlerts = this.setGroupAlerts.bind(this);
     this.setAlerts = this.setAlerts.bind(this);
-    this.updateSearch = this.updateSearch.bind(this);
   }
 
   componentDidMount() {
@@ -58,19 +34,12 @@ class GroupAlerts extends Component {
 
   setGroupAlerts(resp) {
     const { data } = resp;
-    const groupAlerts = [];
+    const groupAlertData = [];
     for (let i = 0; i < data.length; i += 1) {
-      const groupAlert = (<GroupAlert
-        key={i}
-        groupAlertData={data[i]}
-        refreshGroupAlerts={this.refreshGroupAlerts}
-        setEditGroupAlert={this.setEditGroupAlert}
-      />
-      );
-      groupAlerts.push(groupAlert);
+      groupAlertData.push(data[i]);
     }
     this.setState({
-      groupAlerts
+      groupAlertData
     });
   }
 
@@ -78,42 +47,38 @@ class GroupAlerts extends Component {
     this.customGroupAlert.current.prePopulate(editGroupAlert);
   }
 
+  generateGroupAlerts(groupAlertData) {
+    const groupAlerts = [];
+    for (let i = 0; i < groupAlertData.length; i += 1) {
+      const groupAlert = (<GroupAlert
+        key={i}
+        groupAlertData={groupAlertData[i]}
+        refreshGroupAlerts={this.refreshGroupAlerts}
+        setEditGroupAlert={this.setEditGroupAlert}
+      />
+      );
+      groupAlerts.push(groupAlert);
+    }
+    return groupAlerts;
+  }
+
   refreshGroupAlerts() {
     api.request('alerts/', null).then(this.setAlerts);
     api.request('alerts/groups', null).then(this.setGroupAlerts);
   }
 
-  updateSearch(event) {
-    const {
-      target: {
-        value
-      }
-    } = event;
-    this.setState({
-      search: value
-    });
-  }
-
   render() {
-    const { groupAlerts, allAlerts, search } = this.state;
-    const filteredAlerts = filterGroupAlerts(groupAlerts, search);
+    const { groupAlertData, allAlerts } = this.state;
+    const groupAlerts = this.generateGroupAlerts(groupAlertData);
     return (
       <div>
-        <ScrollableAnchor id="saved-group-alerts">
-          <h3>Group Alerts</h3>
-        </ScrollableAnchor>
+        <h3>Group Alerts</h3>
         <div className="saved-group-alerts">
-          <form className="search">
-            <label htmlFor="custom-alert">Search</label>
-            <input id="search-group-alerts" type="text" value={search} onChange={this.updateSearch} />
-          </form>
           <div className="grid">
-            { filteredAlerts }
+            { groupAlerts }
           </div>
         </div>
-        <ScrollableAnchor id="custom-group-alert">
-          <h3>New Group Alert</h3>
-        </ScrollableAnchor>
+        <h3>New Group Alert</h3>
         <div className="custom-group-alert">
           <CustomGroupAlert
             ref={this.customGroupAlert}

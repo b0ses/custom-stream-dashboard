@@ -1,45 +1,34 @@
 import React, { Component } from 'react';
-import ScrollableAnchor from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 import CustomAlert from './CustomAlert';
 import Alert from './Alert';
 
-function filterAlerts(alerts, search) {
-  const searchTerms = search.split(' ');
-  const filtered = alerts.filter((alert) => {
-    const {
-      props: {
-        alertData: {
-          name
-        }
-      }
-    } = alert;
-    let match = false;
-    for (let i = 0; i < searchTerms.length; i += 1) {
-      if (name.toLowerCase().indexOf(searchTerms[i].toLowerCase()) > -1) {
-        match = true;
-      }
-    }
-    return match;
-  });
-  return filtered;
-}
+const querystring = require('querystring');
+const kGlobalConstants = require('./Settings').default;
+
 
 class Alerts extends Component {
   constructor() {
     super();
 
     this.state = {
-      alerts: [],
-      search: ''
+      alertData: [],
+      search: '',
+      sort: 'name',
+      page: 1,
+      limit: kGlobalConstants.PAGE_LIMIT
     };
     this.customAlert = React.createRef();
 
+    this.generateAlerts = this.generateAlerts.bind(this);
     this.refreshAlerts = this.refreshAlerts.bind(this);
     this.setEditAlert = this.setEditAlert.bind(this);
     this.setAlerts = this.setAlerts.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
+    this.updateSort = this.updateSort.bind(this);
+    this.nextPage = this.nextPage.bind(this);
+    this.previousPage = this.previousPage.bind(this);
   }
 
   componentDidMount() {
@@ -48,24 +37,32 @@ class Alerts extends Component {
 
   setAlerts(resp) {
     const { data } = resp;
-    const alerts = [];
+    const alertData = [];
     for (let i = 0; i < data.length; i += 1) {
+      alertData.push(data[i]);
+    }
+    this.setState({
+      alertData
+    });
+  }
+
+  setEditAlert(editAlert) {
+    this.customAlert.current.prePopulate(editAlert);
+  }
+
+  generateAlerts(alertData) {
+    const alerts = [];
+    for (let i = 0; i < alertData.length; i += 1) {
       const alert = (<Alert
         key={i}
-        alertData={data[i]}
+        alertData={alertData[i]}
         refreshAlerts={this.refreshAlerts}
         setEditAlert={this.setEditAlert}
       />
       );
       alerts.push(alert);
     }
-    this.setState({
-      alerts
-    });
-  }
-
-  setEditAlert(editAlert) {
-    this.customAlert.current.prePopulate(editAlert);
+    return alerts;
   }
 
   updateSearch(event) {
@@ -75,34 +72,88 @@ class Alerts extends Component {
       }
     } = event;
     this.setState({
-      search: value
-    });
+      search: value,
+      page: 1
+    }, this.refreshAlerts);
+  }
+
+  updateSort(event) {
+    const {
+      target: {
+        value
+      }
+    } = event;
+    this.setState({
+      sort: value,
+      page: 1
+    }, this.refreshAlerts);
+  }
+
+  nextPage() {
+    const { page } = this.state;
+    this.setState({
+      page: page + 1
+    }, this.refreshAlerts);
+  }
+
+  previousPage() {
+    const { page } = this.state;
+    if (page > 1) {
+      this.setState({
+        page: page - 1
+      }, this.refreshAlerts);
+    }
   }
 
   refreshAlerts() {
-    api.request('alerts/', null).then(this.setAlerts);
+    const {
+      search,
+      sort,
+      limit,
+      page
+    } = this.state;
+    const params = {
+      search,
+      sort,
+      page,
+      limit
+    };
+    const queryParams = `?${querystring.stringify(params)}`;
+    api.request(`alerts/${queryParams}`, null).then(this.setAlerts);
   }
 
   render() {
-    const { alerts, search } = this.state;
-    const filteredAlerts = filterAlerts(alerts, search);
+    const {
+      alertData,
+      search,
+      sort,
+      page,
+      limit
+    } = this.state;
+    const prevButtonDisabled = (page === 1);
+    const nextButtonDisabled = (alertData.length < limit);
+    const alerts = this.generateAlerts(alertData);
     return (
       <div>
-        <ScrollableAnchor id="saved-alerts">
-          <h3>Alerts</h3>
-        </ScrollableAnchor>
+        <h3>Alerts</h3>
         <div className="saved-alerts">
           <form className="search">
             <label htmlFor="custom-alert">Search</label>
             <input id="search-alerts" type="text" value={search} onChange={this.updateSearch} />
+            <label htmlFor="custom-alert">Sort</label>
+            <select id="sort-alerts" value={sort} onChange={this.updateSort}>
+              <option value="name">Alphabetical</option>
+              <option value="-name">Reverse Alphabetical</option>
+            </select>
+            <button type="button" disabled={prevButtonDisabled} onClick={this.previousPage}>Previous</button>
+            &nbsp;
+            <button type="button" disabled={nextButtonDisabled} onClick={this.nextPage}>Next</button>
           </form>
           <div className="grid">
-            { filteredAlerts }
+            { alerts }
           </div>
         </div>
-        <ScrollableAnchor id="custom-alert">
-          <h3>New Alert</h3>
-        </ScrollableAnchor>
+        <h3>New Alert</h3>
         <div className="custom-alert">
           <CustomAlert ref={this.customAlert} refreshAlerts={this.refreshAlerts} />
         </div>
