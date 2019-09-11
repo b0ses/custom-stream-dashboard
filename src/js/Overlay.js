@@ -8,9 +8,7 @@ export default function Overlay() {
 
   return (
     <div>
-      <ScrollableAnchor id="real-time-overlay">
-        <h3>Real-time Overlay</h3>
-      </ScrollableAnchor>
+      <h3>Real-time Overlay</h3>
       <div className="real-time-overlay">
         <p>
           URL (for OBS BrowserSource):&nbsp;
