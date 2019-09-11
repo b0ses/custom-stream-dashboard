@@ -4,13 +4,20 @@ import api from './helpers/api';
 import CustomGroupAlert from './CustomGroupAlert';
 import GroupAlert from './GroupAlert';
 
+const querystring = require('querystring');
+const kGlobalConstants = require('./Settings').default;
+
 class GroupAlerts extends Component {
   constructor() {
     super();
 
     this.state = {
       groupAlertData: [],
-      allAlerts: []
+      allAlerts: [],
+      search: '',
+      sort: 'name',
+      page: 1,
+      limit: kGlobalConstants.PAGE_LIMIT
     };
     this.customGroupAlert = React.createRef();
 
@@ -19,6 +26,10 @@ class GroupAlerts extends Component {
     this.setEditGroupAlert = this.setEditGroupAlert.bind(this);
     this.setGroupAlerts = this.setGroupAlerts.bind(this);
     this.setAlerts = this.setAlerts.bind(this);
+    this.updateSearch = this.updateSearch.bind(this);
+    this.updateSort = this.updateSort.bind(this);
+    this.nextPage = this.nextPage.bind(this);
+    this.previousPage = this.previousPage.bind(this);
   }
 
   componentDidMount() {
@@ -62,18 +73,93 @@ class GroupAlerts extends Component {
     return groupAlerts;
   }
 
+  updateSearch(event) {
+    const {
+      target: {
+        value
+      }
+    } = event;
+    this.setState({
+      search: value,
+      page: 1
+    }, this.refreshGroupAlerts);
+  }
+
+  updateSort(event) {
+    const {
+      target: {
+        value
+      }
+    } = event;
+    this.setState({
+      sort: value,
+      page: 1
+    }, this.refreshGroupAlerts);
+  }
+
+  nextPage() {
+    const { page } = this.state;
+    this.setState({
+      page: page + 1
+    }, this.refreshGroupAlerts);
+  }
+
+  previousPage() {
+    const { page } = this.state;
+    if (page > 1) {
+      this.setState({
+        page: page - 1
+      }, this.refreshGroupAlerts);
+    }
+  }
+
   refreshGroupAlerts() {
+    const {
+      search,
+      sort,
+      limit,
+      page
+    } = this.state;
+    const params = {
+      search,
+      sort,
+      page,
+      limit
+    };
+    const queryParams = `?${querystring.stringify(params)}`;
+
     api.request('alerts/', null).then(this.setAlerts);
-    api.request('alerts/groups', null).then(this.setGroupAlerts);
+    api.request(`alerts/groups${queryParams}`, null).then(this.setGroupAlerts);
   }
 
   render() {
-    const { groupAlertData, allAlerts } = this.state;
+    const {
+      groupAlertData,
+      allAlerts,
+      search,
+      sort,
+      page,
+      limit
+    } = this.state;
+    const prevButtonDisabled = (page === 1);
+    const nextButtonDisabled = (groupAlertData.length < limit);
     const groupAlerts = this.generateGroupAlerts(groupAlertData);
     return (
       <div>
         <h3>Group Alerts</h3>
         <div className="saved-group-alerts">
+          <form className="search">
+            <label htmlFor="custom-alert">Search</label>
+            <input id="search-alerts" type="text" value={search} onChange={this.updateSearch} />
+            <label htmlFor="custom-alert">Sort</label>
+            <select id="sort-alerts" value={sort} onChange={this.updateSort}>
+              <option value="name">Alphabetical</option>
+              <option value="-name">Reverse Alphabetical</option>
+            </select>
+            <button type="button" disabled={prevButtonDisabled} onClick={this.previousPage}>Previous</button>
+            &nbsp;
+            <button type="button" disabled={nextButtonDisabled} onClick={this.nextPage}>Next</button>
+          </form>
           <div className="grid">
             { groupAlerts }
           </div>
