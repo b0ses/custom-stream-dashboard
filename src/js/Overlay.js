@@ -1,5 +1,4 @@
 import React from 'react';
-import ScrollableAnchor from 'react-scrollable-anchor';
 
 const kGlobalConstants = require('./Settings').default;
 
