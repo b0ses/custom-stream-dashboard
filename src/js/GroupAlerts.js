@@ -17,6 +17,7 @@ class GroupAlerts extends Component {
       search: '',
       sort: 'name',
       page: 1,
+      total: null,
       limit: kGlobalConstants.PAGE_LIMIT
     };
     this.customGroupAlert = React.createRef();
@@ -38,19 +39,23 @@ class GroupAlerts extends Component {
 
   setAlerts(resp) {
     const { data } = resp;
+    const { alerts } = data;
     this.setState({
-      allAlerts: data.map(alert => alert.name)
+      allAlerts: alerts.map(alert => alert.name)
     });
   }
 
   setGroupAlerts(resp) {
     const { data } = resp;
+    const { groups, page_metadata: pageMetadata } = data;
+    const { total } = pageMetadata;
     const groupAlertData = [];
-    for (let i = 0; i < data.length; i += 1) {
-      groupAlertData.push(data[i]);
+    for (let i = 0; i < groups.length; i += 1) {
+      groupAlertData.push(groups[i]);
     }
     this.setState({
-      groupAlertData
+      groupAlertData,
+      total
     });
   }
 
@@ -139,11 +144,13 @@ class GroupAlerts extends Component {
       search,
       sort,
       page,
-      limit
+      limit,
+      total
     } = this.state;
     const prevButtonDisabled = (page === 1);
     const nextButtonDisabled = (groupAlertData.length < limit);
     const groupAlerts = this.generateGroupAlerts(groupAlertData);
+    const totalPages = Math.ceil(total / kGlobalConstants.PAGE_LIMIT);
     return (
       <div>
         <h3>Group Alerts</h3>
@@ -159,6 +166,11 @@ class GroupAlerts extends Component {
             <button type="button" disabled={prevButtonDisabled} onClick={this.previousPage}>Previous</button>
             &nbsp;
             <button type="button" disabled={nextButtonDisabled} onClick={this.nextPage}>Next</button>
+            &nbsp;
+            Page:
+            {page}
+            /
+            {totalPages}
           </form>
           <div className="grid">
             { groupAlerts }
