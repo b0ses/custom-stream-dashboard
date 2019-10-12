@@ -17,6 +17,7 @@ class Alerts extends Component {
       search: '',
       sort: 'name',
       page: 1,
+      total: null,
       limit: kGlobalConstants.PAGE_LIMIT
     };
     this.customAlert = React.createRef();
@@ -37,12 +38,15 @@ class Alerts extends Component {
 
   setAlerts(resp) {
     const { data } = resp;
+    const { alerts, page_metadata: pageMetadata } = data;
+    const { total } = pageMetadata;
     const alertData = [];
-    for (let i = 0; i < data.length; i += 1) {
-      alertData.push(data[i]);
+    for (let i = 0; i < alerts.length; i += 1) {
+      alertData.push(alerts[i]);
     }
     this.setState({
-      alertData
+      alertData,
+      total
     });
   }
 
@@ -128,11 +132,13 @@ class Alerts extends Component {
       search,
       sort,
       page,
-      limit
+      limit,
+      total
     } = this.state;
     const prevButtonDisabled = (page === 1);
     const nextButtonDisabled = (alertData.length < limit);
     const alerts = this.generateAlerts(alertData);
+    const totalPages = Math.ceil(total / kGlobalConstants.PAGE_LIMIT);
     return (
       <div>
         <h3>Alerts</h3>
@@ -148,6 +154,11 @@ class Alerts extends Component {
             <button type="button" disabled={prevButtonDisabled} onClick={this.previousPage}>Previous</button>
             &nbsp;
             <button type="button" disabled={nextButtonDisabled} onClick={this.nextPage}>Next</button>
+            &nbsp;
+            Page:
+            {page}
+            /
+            {totalPages}
           </form>
           <div className="grid">
             { alerts }
