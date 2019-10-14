@@ -7,7 +7,7 @@ const kGlobalConstants = {
   CLIENT_ID: '',
   REDIRECT_URI: '',
 
-  PAGE_LIMIT: 20
+  PAGE_LIMIT: 25
 };
 
 export default kGlobalConstants;
