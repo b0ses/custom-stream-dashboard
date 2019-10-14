@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { goToAnchor } from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 import ColorPicker from './helpers/ColorPicker';
@@ -86,7 +85,6 @@ class CustomAlert extends Component {
       effect: '',
       thumbnail: ''
     });
-    goToAnchor('saved-alerts');
   }
 
   render() {
