@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { goToAnchor } from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 import ColorPicker from './helpers/ColorPicker';
@@ -78,8 +77,7 @@ class CustomGroupAlert extends Component {
     });
   }
 
-  prePopulate(resp) {
-    const { data } = resp;
+  prePopulate(data) {
     this.setState(data);
     this.colorPickerRef.current.setColor(data.thumbnail);
   }
@@ -100,7 +98,6 @@ class CustomGroupAlert extends Component {
       alerts: [],
       thumbnail: ''
     });
-    goToAnchor('saved-group-alerts');
   }
 
   addToGroup(event) {

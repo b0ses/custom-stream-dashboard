@@ -28,6 +28,7 @@ class Alerts extends Component {
     this.setAlerts = this.setAlerts.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
     this.updateSort = this.updateSort.bind(this);
+    this.updateLimit = this.updateLimit.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
   }
@@ -93,6 +94,18 @@ class Alerts extends Component {
     }, this.refreshAlerts);
   }
 
+  updateLimit(event) {
+    const {
+      target: {
+        value
+      }
+    } = event;
+    this.setState({
+      limit: value === '' ? null : value,
+      page: 1
+    }, this.refreshAlerts);
+  }
+
   nextPage() {
     const { page } = this.state;
     this.setState({
@@ -138,7 +151,7 @@ class Alerts extends Component {
     const prevButtonDisabled = (page === 1);
     const nextButtonDisabled = (alertData.length < limit);
     const alerts = this.generateAlerts(alertData);
-    const totalPages = Math.ceil(total / kGlobalConstants.PAGE_LIMIT);
+    const totalPages = limit === null ? 1 : Math.ceil(total / limit);
     return (
       <div>
         <h3>Alerts</h3>
@@ -150,6 +163,14 @@ class Alerts extends Component {
             <select id="sort-alerts" value={sort} onChange={this.updateSort}>
               <option value="name">Alphabetical</option>
               <option value="-name">Reverse Alphabetical</option>
+            </select>
+            <label htmlFor="custom-alert">Limit</label>
+            <select id="limit-alerts" value={limit} onChange={this.updateLimit}>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="">All</option>
             </select>
             <button type="button" disabled={prevButtonDisabled} onClick={this.previousPage}>Previous</button>
             &nbsp;

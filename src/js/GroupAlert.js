@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { goToAnchor } from 'react-scrollable-anchor';
 
 import api from './helpers/api';
 
@@ -28,7 +27,6 @@ class GroupAlert extends Component {
     const { refreshGroupAlerts } = this.props;
     setEditGroupAlert(groupAlertData);
     refreshGroupAlerts();
-    goToAnchor('custom-group-alert');
   }
 
   removeGroupAlert(event) {
