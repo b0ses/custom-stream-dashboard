@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import uuid from 'uuid';
+import {v1 as uuid} from "uuid"; 
 import Slider from '@material-ui/core/Slider';
 import { OauthSender } from 'react-oauth-flow';
 
