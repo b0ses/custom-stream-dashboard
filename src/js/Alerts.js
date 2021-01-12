@@ -58,12 +58,13 @@ class Alerts extends Component {
   generateAlerts(alertData) {
     const alerts = [];
     for (let i = 0; i < alertData.length; i += 1) {
-      const alert = (<Alert
-        key={i}
-        alertData={alertData[i]}
-        refreshAlerts={this.refreshAlerts}
-        setEditAlert={this.setEditAlert}
-      />
+      const alert = (
+        <Alert
+          key={i}
+          alertData={alertData[i]}
+          refreshAlerts={this.refreshAlerts}
+          setEditAlert={this.setEditAlert}
+        />
       );
       alerts.push(alert);
     }

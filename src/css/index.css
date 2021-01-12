@@ -263,3 +263,18 @@ button:disabled {
   color: white;
   background-color: #6441a4;
 }
+
+.lights {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.lights .color-selector input {
+  width: 50%;
+  float: left;
+}
+
+.lights .color-selector .color-picker {
+  float: left;
+  width: 49%;
+}

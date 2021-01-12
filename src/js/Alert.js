@@ -91,6 +91,7 @@ class Alert extends Component {
 Alert.propTypes = {
   alertData: PropTypes.shape({
     name: PropTypes.string,
+    thumbnail: PropTypes.string,
     text: PropTypes.string,
     sound: PropTypes.string,
     duration: PropTypes.number,

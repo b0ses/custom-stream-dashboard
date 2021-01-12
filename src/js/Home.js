@@ -4,6 +4,7 @@ import UserDetails from './UserDetails';
 import Overlay from './Overlay';
 import GroupAlerts from './GroupAlerts';
 import Alerts from './Alerts';
+import Lights from './Lights';
 
 const Home = () => (
   <div>
@@ -11,6 +12,7 @@ const Home = () => (
     <Overlay />
     <GroupAlerts />
     <Alerts />
+    <Lights />
   </div>
 );
 

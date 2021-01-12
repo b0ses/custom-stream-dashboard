@@ -67,12 +67,13 @@ class GroupAlerts extends Component {
   generateGroupAlerts(groupAlertData) {
     const groupAlerts = [];
     for (let i = 0; i < groupAlertData.length; i += 1) {
-      const groupAlert = (<GroupAlert
-        key={i}
-        groupAlertData={groupAlertData[i]}
-        refreshGroupAlerts={this.refreshGroupAlerts}
-        setEditGroupAlert={this.setEditGroupAlert}
-      />
+      const groupAlert = (
+        <GroupAlert
+          key={i}
+          groupAlertData={groupAlertData[i]}
+          refreshGroupAlerts={this.refreshGroupAlerts}
+          setEditGroupAlert={this.setEditGroupAlert}
+        />
       );
       groupAlerts.push(groupAlert);
     }

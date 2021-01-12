@@ -4,12 +4,14 @@ import PrivateRoute from './PrivateRoute';
 
 import Home from './Home';
 import Login from './Login';
-import Auth from './Auth';
+import TwitchAuth from './TwitchAuth';
+import HueAuth from './HueAuth';
 
 const Router = () => (
   <Switch>
     <PrivateRoute exact path="/" component={Home} />
-    <Route exact path="/auth" component={Auth} />
+    <Route exact path="/twitch_auth" component={TwitchAuth} />
+    <Route exact path="/hue_auth" component={HueAuth} />
     <Route exact path="/login" component={Login} />
   </Switch>
 );

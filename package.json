@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.2",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.7.2",
@@ -15,7 +16,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "2.0.3",
     "reactcss": "^1.2.3",
-    "terser": "3.14.1"
+    "terser": "3.14.1",
+    "uuid": "^8.3.2"
   },
   "scripts": {
     "start": "HOST=127.0.0.1 PORT=8080 react-scripts start",
