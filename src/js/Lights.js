@@ -122,7 +122,7 @@ class Lights extends Component {
         args={{
           appid: kGlobalConstants.HUE_APP_ID,
           deviceid: kGlobalConstants.HUE_DEVICE_ID,
-          state: uuid.v4(),
+          state: uuid(),
           response_type: 'code'
         }}
         render={({ url }) => (
