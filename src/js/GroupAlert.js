@@ -85,7 +85,8 @@ class GroupAlert extends Component {
 
 GroupAlert.propTypes = {
   groupAlertData: PropTypes.shape({
-    name: PropTypes.string
+    name: PropTypes.string,
+    thumbnail: PropTypes.string
   }),
   refreshGroupAlerts: PropTypes.func,
   setEditGroupAlert: PropTypes.func
