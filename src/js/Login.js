@@ -28,8 +28,8 @@ const claims = {
 const Login = () => (
   <OauthSender
     authorizeUrl="https://id.twitch.tv/oauth2/authorize"
-    clientId={kGlobalConstants.CLIENT_ID}
-    redirectUri={kGlobalConstants.REDIRECT_URI}
+    clientId={kGlobalConstants.TWITCH_CLIENT_ID}
+    redirectUri={kGlobalConstants.TWITCH_REDIRECT_URI}
     state={{ from: '/settings' }}
     args={{
       response_type: 'code',

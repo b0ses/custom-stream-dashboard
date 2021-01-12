@@ -3,9 +3,14 @@ const kGlobalConstants = {
   API_PORT: '5000',
 
   // Twitch login settings
-  LOGIN: false,
-  CLIENT_ID: '',
-  REDIRECT_URI: '',
+  LOGIN: true,
+  TWITCH_CLIENT_ID: '',
+  TWITCH_REDIRECT_URI: '',
+
+  // Hue login settings
+  HUE_CLIENT_ID: '',
+  HUE_APP_ID: '',
+  HUE_DEVICE_ID: '',
 
   PAGE_LIMIT: 25
 };

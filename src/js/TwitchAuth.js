@@ -10,7 +10,7 @@ export function isAuthenticated() {
   return (localStorage.getItem('loggedIn') != null || !kGlobalConstants.LOGIN);
 }
 
-class Auth extends Component {
+class TwitchAuth extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +22,7 @@ class Auth extends Component {
   }
 
   validate(authCode) {
-    api.request('auth/login', { code: authCode }).then((resp) => {
+    api.request('auth/twitch_login', { code: authCode }).then((resp) => {
       if (resp.status === 200) {
         console.log('Successfully authorized');
         localStorage.setItem('loggedIn', true);
@@ -56,15 +56,15 @@ class Auth extends Component {
   }
 }
 
-Auth.propTypes = {
+TwitchAuth.propTypes = {
   location: PropTypes.shape({
     state: PropTypes.string,
     search: PropTypes.string
   })
 };
 
-Auth.defaultProps = {
+TwitchAuth.defaultProps = {
   location: null
 };
 
-export default Auth;
+export default TwitchAuth;
