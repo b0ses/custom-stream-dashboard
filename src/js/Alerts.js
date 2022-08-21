@@ -164,6 +164,8 @@ class Alerts extends Component {
             <select id="sort-alerts" value={sort} onChange={this.updateSort}>
               <option value="name">Alphabetical</option>
               <option value="-name">Reverse Alphabetical</option>
+              <option value="created_at">Oldest</option>
+              <option value="-created_at">Newest</option>
             </select>
             <label htmlFor="custom-alert">Limit</label>
             <select id="limit-alerts" value={limit} onChange={this.updateLimit}>
