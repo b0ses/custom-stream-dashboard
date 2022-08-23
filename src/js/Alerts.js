@@ -15,7 +15,7 @@ class Alerts extends Component {
     this.state = {
       alertData: [],
       search: '',
-      sort: 'name',
+      sort: '-created_at',
       page: 1,
       total: null,
       limit: kGlobalConstants.PAGE_LIMIT
