@@ -8,6 +8,7 @@
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.2",
+    "querystring": "^0.2.1",
     "react": "^16.13.1",
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
@@ -34,6 +35,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
+    "postcss-normalize": "^10.0.1",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
     "terser": "^5.16.1"
