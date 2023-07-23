@@ -26,6 +26,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - name: Update NODE_PATH
+      run: |
+        export NODE_PATH=./src
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
