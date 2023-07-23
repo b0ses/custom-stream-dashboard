@@ -111,7 +111,7 @@ class GroupAlerts extends Component {
       }
     } = event;
     this.setState({
-      limit: value === '' ? null : value,
+      limit: value,
       page: 1
     }, this.refreshGroupAlerts);
   }
@@ -164,7 +164,7 @@ class GroupAlerts extends Component {
     const prevButtonDisabled = (page === 1);
     const nextButtonDisabled = (groupAlertData.length < limit);
     const groupAlerts = this.generateGroupAlerts(groupAlertData);
-    const totalPages = limit === null ? 1 : Math.ceil(total / limit);
+    const totalPages = limit === '' ? 1 : Math.ceil(total / limit);
     return (
       <div>
         <h3>Group Alerts</h3>
