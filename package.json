@@ -23,7 +23,7 @@
     "start": "sudo HOST=127.0.0.1 PORT=8080 react-scripts start",
     "build": "react-scripts build",
     "test:unit": "CI=true react-scripts test --env=jsdom",
-    "test:lint:js": "DISABLE_ESLINT_PLUGIN=true eslint --ext=js --ext=jsx \"src/js/**\" --debug",
+    "test:lint:js": "DISABLE_ESLINT_PLUGIN=true eslint --ext=js --ext=jsx 'src/js/**'",
     "test:lint:css": "stylelint \"**/*.css\"",
     "test": "npm run test:lint:js && npm run test:lint:css && npm run test:unit",
     "eject": "react-scripts eject"
