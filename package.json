@@ -48,6 +48,9 @@
   "presets": [
     "env"
   ],
+  "resolutions": {
+    "eslint-plugin-react": "8.47.0"
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
