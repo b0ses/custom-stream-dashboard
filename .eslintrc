@@ -1,32 +1,38 @@
 {
-  "extends": "airbnb",
-  "env": {
-    "jest": true,
-    "browser": true
-  },
-  "settings": {
-    "import/resolver": {
-        "node": {
-            "moduleDirectory": ["node_modules", "src"]
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true,
+        "jest": true,
+        "node": true
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "moduleDirectory": ["node_modules", "src"]
+            }
         }
-    }
-  },
-  "rules": {
-    "comma-dangle": [2, "never"],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    'no-console': 'off',
-    "no-param-reassign": [2, { "props": false }],
-    "no-alert": 'off',
-    "no-unused-vars": ["error", { "args": "none" }],
-    "jsx-a11y/label-has-for": [ 2, {
-      "required": {
-          "every": [ "id" ]
+      },
+    "extends": "airbnb",
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+        "comma-dangle": [2, "never"],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        'no-console': 'off',
+        "no-param-reassign": [2, { "props": false }],
+        "no-alert": 'off',
+        "no-unused-vars": ["error", { "args": "none" }],
+        "jsx-a11y/label-has-for": [ 2, {
+          "required": {
+              "every": [ "id" ]
+          }
+        }],
+        "jsx-a11y/label-has-associated-control": [ 2, {
+          "labelComponents": ["label"],
+          "labelAttributes": ["htmlFor"],
+          "controlComponents": ["input"]
+        }]
       }
-    }],
-    "jsx-a11y/label-has-associated-control": [ 2, {
-      "labelComponents": ["label"],
-      "labelAttributes": ["htmlFor"],
-      "controlComponents": ["input"]
-    }]
-  }
 }
