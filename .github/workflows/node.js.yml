@@ -30,5 +30,6 @@ jobs:
       run: |
         export NODE_PATH=./src
     - run: npm ci
+    - run: npm install
     - run: npm run build --if-present
     - run: npm test
