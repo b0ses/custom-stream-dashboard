@@ -23,22 +23,18 @@
     "start": "sudo HOST=127.0.0.1 PORT=8080 react-scripts start",
     "build": "react-scripts build",
     "test:unit": "CI=true react-scripts test --env=jsdom",
-    "test:lint:js": "eslint --ext=js --ext=jsx \"src/js/**\"",
+    "test:lint:js": "DISABLE_ESLINT_PLUGIN=true eslint --ext=js --ext=jsx \"src/js/**\"",
     "test:lint:css": "stylelint \"**/*.css\"",
     "test": "npm run test:lint:js && npm run test:lint:css && npm run test:unit",
     "eject": "react-scripts eject"
   },
-  "engines":{
+  "engines": {
     "node": "=14.17.3"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "eslint": "7.32.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.33.0",
     "postcss-normalize": "^10.0.1",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
