@@ -47,9 +47,8 @@
   "eslintConfig": {
     "extends": [
         "react-app",
-        "share-config",
         "react-app/jest",
-        "react-app/airbnb"
+        "eslint-config-airbnb"
     ],
     "rules": {
       "additional-rule": "warn"

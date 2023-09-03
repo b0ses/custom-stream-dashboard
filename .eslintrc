@@ -1,11 +1,4 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true,
-        "jest": true,
-        "node": true
-    },
     "settings": {
         "import/resolver": {
             "node": {
@@ -13,10 +6,6 @@
             }
         }
       },
-    "extends": "airbnb",
-    "parserOptions": {
-        "ecmaVersion": "latest"
-    },
     "rules": {
         "comma-dangle": [2, "never"],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
