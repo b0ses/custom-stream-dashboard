@@ -34,7 +34,6 @@
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "eslint": "^8.47.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-jsx-a11y": "^6.7.1",
@@ -44,6 +43,24 @@
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
     "terser": "^5.16.1"
+  },
+  "eslintConfig": {
+    "extends": [
+        "react-app",
+        "react-app/jest",
+        "react-app/airbnb"
+    ],
+    "rules": {
+      "additional-rule": "warn"
+    },
+    "overrides": [
+      {
+        "files": ["**/*.ts?(x)"],
+        "rules": {
+          "additional-typescript-only-rule": "warn"
+        }
+      }
+    ]
   },
   "presets": [
     "env"
