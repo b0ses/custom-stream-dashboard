@@ -28,7 +28,7 @@ jobs:
         cache: ''
     - name: Update NODE_PATH
       run: |
-        export NODE_PATH=.
+        export NODE_PATH=./node_modules
     - run: npm ci
     - run: npm install --include=dev
     - run: npm run build --if-present
