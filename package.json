@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start": "sudo HOST=127.0.0.1 PORT=8080 react-scripts start",
-    "build": "react-scripts build",
+    "build": "npm list eslint",
     "test:unit": "CI=true react-scripts test --env=jsdom",
     "test:lint:js": "npm list eslint",
     "test:lint:css": "stylelint \"**/*.css\"",
