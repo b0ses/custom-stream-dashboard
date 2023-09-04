@@ -15,7 +15,7 @@
     "react-oauth-flow": "^1.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^5.0.1",
+    "react-scripts": "5.0.1",
     "reactcss": "^1.2.3",
     "uuid": "^8.3.2"
   },
@@ -29,44 +29,22 @@
     "eject": "react-scripts eject"
   },
   "engines": {
-    "node": "=14.17.3"
+    "node": "18.17.1"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
     "postcss-normalize": "^10.0.1",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
     "terser": "^5.16.1"
   },
   "eslintConfig": {
-    "extends": [
-        "react-app",
-        "react-app/jest",
-        "eslint-config-airbnb"
-    ],
-    "rules": {
-      "additional-rule": "warn"
-    },
-    "overrides": [
-      {
-        "files": ["**/*.ts?(x)"],
-        "rules": {
-          "additional-typescript-only-rule": "warn"
-        }
-      }
-    ]
   },
   "presets": [
     "env"
   ],
   "resolutions": {
-    "eslint-plugin-react": "8.47.0"
   },
   "browserslist": [
     ">0.2%",
