@@ -30,6 +30,5 @@ jobs:
       run: |
         export NODE_PATH=./node_modules
     - run: npm ci
-    - run: npm install --include=dev
     - run: npm run build --if-present
-    - run: npm install --include=dev && npm test
+    - run: npm test
