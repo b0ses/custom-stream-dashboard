@@ -57,7 +57,7 @@ class Alert extends Component {
     let alertButtonClass = null;
     let backgroundStyle = {};
     let buttonThumbnail = thumbnail;
-    if (buttonThumbnail === '') {
+    if (!buttonThumbnail || buttonThumbnail === '') {
       buttonThumbnail = '#DDD';
     }
     if (buttonThumbnail[0] === '#') {

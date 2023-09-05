@@ -48,7 +48,7 @@ class ColorPicker extends React.Component {
   }
 
   setColor(color) {
-    if (isHex(color) != null) {
+    if (color && isHex(color) != null) {
       this.setState({ color: hexToRgb(color) });
     }
   }

@@ -81,8 +81,6 @@ button:disabled {
   font-size: 1rem;
   cursor: pointer;
   text-align: center;
-  -webkit-appearance: none;
-  -moz-appearance: none;
 }
 
 .alert-button.button-overlay {
@@ -118,10 +116,7 @@ button:disabled {
   grid-template-columns: 100px 1fr;
   grid-gap: 5px;
   column-gap: 10px;
-  margin-left: 100px;
-  margin-right: 100px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: 10px 100px;
 }
 
 .custom-form label {
@@ -161,7 +156,7 @@ button:disabled {
   padding: 2px;
   background: #fff;
   border-radius: 1px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 1px rgba(0 0 0 / 10%);
   display: inline-block;
   cursor: pointer;
 }
@@ -172,7 +167,7 @@ button:disabled {
 }
 
 .sketch-picker span {
-  color: white !important;
+  color: #fff !important;
 }
 
 .color-picker .swatch .color {

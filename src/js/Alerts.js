@@ -41,12 +41,8 @@ class Alerts extends Component {
     const { data } = resp;
     const { alerts, page_metadata: pageMetadata } = data;
     const { total } = pageMetadata;
-    const alertData = [];
-    for (let i = 0; i < alerts.length; i += 1) {
-      alertData.push(alerts[i]);
-    }
     this.setState({
-      alertData,
+      alertData: alerts,
       total
     });
   }

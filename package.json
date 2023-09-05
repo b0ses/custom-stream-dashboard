@@ -15,34 +15,40 @@
     "react-oauth-flow": "^1.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^5.0.1",
+    "react-scripts": "5.0.1",
     "reactcss": "^1.2.3",
     "uuid": "^8.3.2"
   },
   "scripts": {
-    "start": "HOST=127.0.0.1 PORT=8080 react-scripts start",
+    "start": "sudo HOST=127.0.0.1 PORT=8080 react-scripts start",
     "build": "react-scripts build",
     "test:unit": "CI=true react-scripts test --env=jsdom",
-    "test:lint:js": "eslint --ext=js --ext=jsx \"src/js/**\"",
-    "test:lint:css": "stylelint \"**/*.css\"",
+    "test:lint:js": "eslint --ext=js --ext=jsx 'src/js/**/*.js'",
+    "test:lint:css": "stylelint \"src/css/*.css\"",
     "test": "npm run test:lint:js && npm run test:lint:css && npm run test:unit",
     "eject": "react-scripts eject"
+  },
+  "engines": {
+    "node": "=18.17.1"
   },
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "eslint-config-airbnb": "^17.1.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.6",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "postcss-normalize": "^10.0.1",
+    "prettier": "^3.0.3",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
     "terser": "^5.16.1"
   },
+  "eslintConfig": {},
   "presets": [
     "env"
   ],
+  "resolutions": {},
   "browserslist": [
     ">0.2%",
     "not dead",
