@@ -3,21 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.2",
-    "js-cookie": "^2.2.1",
-    "jwt-decode": "^2.2.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.1.0",
+    "ajv": "^8.17.1",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "prop-types": "^15.7.2",
-    "query-string": "^6.13.2",
-    "querystring": "^0.2.1",
-    "react": "^16.13.1",
-    "react-color": "^2.18.1",
-    "react-dom": "^16.13.1",
+    "query-string": "^9.2.0",
+    "react": "^19.1.0",
+    "react-color": "^2.19.3",
+    "react-dom": "^19.1.0",
     "react-oauth-flow": "^1.2.0",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "5.0.1",
+    "react-router": "^7.6.1",
+    "react-router-dom": "^7.6.1",
+    "react-scripts": "^5.0.1",
     "reactcss": "^1.2.3",
-    "uuid": "^8.3.2"
+    "schema-utils": "^4.3.2",
+    "uuid": "^11.1.0"
   },
   "scripts": {
     "start": "sudo HOST=127.0.0.1 PORT=8080 react-scripts start",
@@ -29,20 +32,16 @@
     "eject": "react-scripts eject"
   },
   "engines": {
-    "node": "=18.17.1"
+    "node": "=24.1.0"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.7.0",
+    "babel-preset-env": "^0.0.0",
     "babel-preset-react": "^6.24.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-prettier": "^5.0.0",
-    "postcss-normalize": "^10.0.1",
-    "prettier": "^3.0.3",
-    "stylelint": "^14.16.1",
-    "stylelint-config-standard": "^29.0.0",
-    "terser": "^5.16.1"
+    "postcss-normalize": "^13.0.1",
+    "prettier": "^3.5.3",
+    "stylelint": "^16.20.0",
+    "stylelint-config-standard": "^38.0.0",
+    "terser": "^5.40.0"
   },
   "eslintConfig": {},
   "presets": [
