@@ -4,7 +4,7 @@ import api from './helpers/api';
 import CustomAlert from './CustomAlert';
 import Alert from './Alert';
 
-const querystring = require('querystring');
+import queryString from 'query-string';
 const kGlobalConstants = require('./Settings').default;
 
 
@@ -132,7 +132,7 @@ class Alerts extends Component {
       page,
       limit
     };
-    const queryParams = `?${querystring.stringify(params)}`;
+    const queryParams = `?${queryString.stringify(params)}`;
     api.request(`alerts/${queryParams}`, null).then(this.setAlerts);
   }
 

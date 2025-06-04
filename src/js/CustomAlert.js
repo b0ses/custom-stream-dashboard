@@ -103,13 +103,11 @@ class CustomAlert extends Component {
           <input id="text" type="text" value={text} placeholder="what appears" onChange={this.handleChange} />
           <label htmlFor="custom-alert">Sound</label>
           <input id="sound" type="text" value={sound} placeholder="what gets heard" onChange={this.handleChange} />
-          <label htmlFor="custom-alert">Duration</label>
-          <input id="duration" type="text" value={duration} placeholder="how long does it last (milliseconds)" onChange={this.handleChange} />
           <label htmlFor="custom-alert">Effect</label>
           <input id="effect" type="text" value={effect} placeholder="how it appears (ex. fade)" onChange={this.handleChange} />
           <label htmlFor="custom-alert">Button</label>
           <div className="alert-thumbnail">
-            <input id="thumbnail" type="text" value={thumbnail} placeholder="hex color" onChange={this.handleChange} />
+            <input id="thumbnail" type="text" value={thumbnail} placeholder="hex color or image url" onChange={this.handleChange} />
             <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail} />
           </div>
           <label htmlFor="custom-alert">Name</label>

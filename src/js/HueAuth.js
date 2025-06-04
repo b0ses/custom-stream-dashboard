@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from './helpers/api';
 
-const queryString = require('query-string');
+import queryString from 'query-string';
 const kGlobalConstants = require('./Settings').default;
 
 export function isAuthenticated() {
@@ -44,7 +44,7 @@ class HueAuth extends Component {
     const { errorMessage } = this.state;
 
     if (redirectToReferrer) {
-      return <Redirect to={from} />;
+      useNavigate(from);
     }
     if (errorMessage != null) {
       return <h4>{errorMessage}</h4>;

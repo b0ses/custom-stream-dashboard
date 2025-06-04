@@ -4,7 +4,7 @@ import api from './helpers/api';
 import CustomGroupAlert from './CustomGroupAlert';
 import GroupAlert from './GroupAlert';
 
-const querystring = require('querystring');
+import queryString from 'query-string';
 const kGlobalConstants = require('./Settings').default;
 
 class GroupAlerts extends Component {
@@ -145,7 +145,7 @@ class GroupAlerts extends Component {
       page,
       limit
     };
-    const queryParams = `?${querystring.stringify(params)}`;
+    const queryParams = `?${queryString.stringify(params)}`;
 
     api.request('alerts/', null).then(this.setAlerts);
     api.request(`alerts/groups${queryParams}`, null).then(this.setGroupAlerts);
