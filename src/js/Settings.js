@@ -1,6 +1,8 @@
 const kGlobalConstants = {
   API_HOST: 'http://127.0.0.1',
   API_PORT: '5000',
+  LIVE_PORT: '',
+  PREVIEW_PORT: '81',
 
   // Twitch login settings
   LOGIN: true,
@@ -12,7 +14,10 @@ const kGlobalConstants = {
   HUE_APP_ID: '',
   HUE_DEVICE_ID: '',
 
-  PAGE_LIMIT: 25
+  // Preview Overlay settings
+  LIVE: true,
+
+  PAGE_LIMIT: 50
 };
 
 export default kGlobalConstants;
