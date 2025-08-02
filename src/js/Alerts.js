@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import api from './helpers/api';
-import CustomAlert from './CustomAlert';
+import helper from './helpers/helper';
 import Alert from './Alert';
 
 import queryString from 'query-string';
@@ -18,48 +19,99 @@ class Alerts extends Component {
       sort: '-created_at',
       page: 1,
       total: null,
-      limit: kGlobalConstants.PAGE_LIMIT
+      limit: kGlobalConstants.PAGE_LIMIT,
+      includeTags: true,
+      includeAlerts: true,
+      savedIncludeTags: true,
+      savedIncludeAlerts: true,
+      infiniteScroll: true,
+      selected: []
     };
-    this.customAlert = React.createRef();
 
     this.generateAlerts = this.generateAlerts.bind(this);
     this.refreshAlerts = this.refreshAlerts.bind(this);
-    this.setEditAlert = this.setEditAlert.bind(this);
+    this.resetAlerts = this.resetAlerts.bind(this);
     this.setAlerts = this.setAlerts.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
+    this.updateIncludeTags = this.updateIncludeTags.bind(this);
     this.updateSort = this.updateSort.bind(this);
     this.updateLimit = this.updateLimit.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
+    this.setupObserver = this.setupObserver.bind(this);
+    this.handleIntersect = this.handleIntersect.bind(this);
+    this.processChange = this.processChange.bind(this);
   }
 
   componentDidMount() {
-    this.refreshAlerts();
+    this.resetAlerts();
+    this.setupObserver();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.associationsType !== this.props.associationsType) {
+      const { includeAlerts, includeTags, savedIncludeAlerts, savedIncludeTags } = this.state;
+      if (this.props.associationsType === 'alerts') {
+        this.setState({
+          includeAlerts: true,
+          includeTags: false,
+          savedIncludeAlerts: includeAlerts,
+          savedIncludeTags: includeTags
+        });
+        this.resetAlerts();
+      }
+      else if (this.props.associationsType === 'tags') {
+        this.setState({
+          includeAlerts: false,
+          includeTags: true,
+          savedIncludeAlerts: includeAlerts,
+          savedIncludeTags: includeTags
+        });
+        this.resetAlerts();
+      }
+      else {
+        this.setState({
+          includeAlerts: savedIncludeAlerts,
+          includeTags: savedIncludeTags
+        });
+      }
+    }
   }
 
   setAlerts(resp) {
     const { data } = resp;
-    const { alerts, page_metadata: pageMetadata } = data;
+    const { search_results: searchResults, page_metadata: pageMetadata } = data;
     const { total } = pageMetadata;
+    const { infiniteScroll, alertData, page } = this.state;
+
+    let newAlertData = searchResults;
+    if (page > 1 && infiniteScroll){
+      newAlertData = alertData.concat(newAlertData);
+    }
+
     this.setState({
-      alertData: alerts,
+      alertData: newAlertData,
       total
     });
   }
 
-  setEditAlert(editAlert) {
-    this.customAlert.current.prePopulate(editAlert);
-  }
-
   generateAlerts(alertData) {
     const alerts = [];
+    const { associations } = this.props;
     for (let i = 0; i < alertData.length; i += 1) {
+      const tag = alertData[i].type.toLowerCase() === 'tag';
+      const selected = (this.props.associationsType !== null && associations !== null && associations.includes(alertData[i].name) > 0);
       const alert = (
         <Alert
           key={i}
           alertData={alertData[i]}
-          refreshAlerts={this.refreshAlerts}
-          setEditAlert={this.setEditAlert}
+          resetAlerts={this.resetAlerts}
+          editAlert={this.props.editAlert}
+          editTag={this.props.editTag}
+          toggleAssociation={this.props.toggleAssociation}
+          tag={tag}
+          selected={selected}
+          selectable={this.props.associationsType !== null}
         />
       );
       alerts.push(alert);
@@ -73,10 +125,24 @@ class Alerts extends Component {
         value
       }
     } = event;
+    const { search } = this.state;
+    if (search !== value){
+      this.setState({
+        search: value
+      }, this.resetAlerts);
+    }
+  }
+  processChange = helper.debounce((event) => this.updateSearch(event))
+
+  updateIncludeTags(event) {
+    const {
+      target: {
+        checked
+      }
+    } = event;
     this.setState({
-      search: value,
-      page: 1
-    }, this.refreshAlerts);
+      includeTags: checked,
+    }, this.resetAlerts);
   }
 
   updateSort(event) {
@@ -87,8 +153,7 @@ class Alerts extends Component {
     } = event;
     this.setState({
       sort: value,
-      page: 1
-    }, this.refreshAlerts);
+    }, this.resetAlerts);
   }
 
   updateLimit(event) {
@@ -98,9 +163,8 @@ class Alerts extends Component {
       }
     } = event;
     this.setState({
-      limit: value === '' ? null : value,
-      page: 1
-    }, this.refreshAlerts);
+      limit: value === '' ? null : value
+    }, this.resetAlerts);
   }
 
   nextPage() {
@@ -119,21 +183,56 @@ class Alerts extends Component {
     }
   }
 
+  resetAlerts() {
+    this.setState({
+      page: 1,
+      alertData: []
+    }, this.refreshAlerts);
+  }
+
   refreshAlerts() {
     const {
       search,
       sort,
       limit,
-      page
+      page,
+      includeTags,
+      includeAlerts
     } = this.state;
     const params = {
       search,
       sort,
       page,
-      limit
+      limit,
+      "include_tags": includeTags,
+      "include_alerts": includeAlerts
     };
     const queryParams = `?${queryString.stringify(params)}`;
     api.request(`alerts/${queryParams}`, null).then(this.setAlerts);
+  }
+
+  setupObserver() {
+      const options = {
+        root: null, // Observe the viewport
+        rootMargin: "0px",
+        threshold: 0, // Trigger when any part of the element is visible
+      };
+
+      this.observer = new IntersectionObserver(this.handleIntersect, options);
+
+      // Observe the element
+      const target = document.getElementById('infiniteScroll');
+      if (target) {
+        this.observer.observe(target);
+      }
+  }
+
+  handleIntersect(entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        this.nextPage();
+      }
+    });
   }
 
   render() {
@@ -143,53 +242,87 @@ class Alerts extends Component {
       sort,
       page,
       limit,
-      total
+      total,
+      includeAlerts,
+      includeTags
     } = this.state;
-    const prevButtonDisabled = (page === 1);
-    const nextButtonDisabled = (alertData.length < limit);
+    // const prevButtonDisabled = (page === 1);
+    // const nextButtonDisabled = (alertData.length < limit);
     const alerts = this.generateAlerts(alertData);
-    const totalPages = limit === null ? 1 : Math.ceil(total / limit);
+    // const totalPages = limit === null ? 1 : Math.ceil(total / limit);
+
+    let header = '';
+    if (includeAlerts && includeTags) {
+      header = 'Tags and Sounds'
+    }
+    else if (includeAlerts) {
+      header = 'Sounds'
+    }
+    else if (includeTags) {
+      header = 'Tags'
+    }
+
+    let guide = 'Click to play a sound.'
+    if (includeTags) {
+      guide += ' Tags will play a random sound with that tag.';
+    }
+    if (this.props.associationsType !== null) {
+      const counter = this.props.associationsType === 'alerts' ? 'tag' : 'alert';
+      guide = `Click to add/remove ${this.props.associationsType} from ${counter}. Save/Update or Cancel when finished.`
+    }
+
     return (
-      <div>
-        <h3>Alerts</h3>
         <div className="saved-alerts">
+          <h3>{header}</h3>
+          <p>{guide}</p>
+          <div id="legend">
+            {includeTags ? (<div><span>Tags</span><span className="dot tags"></span></div>) : null}
+            {this.props.associationsType !== null ? (<div><span>Selected</span><span className="dot selected"></span></div>) : null}
+          </div>
           <form className="search">
-            <label htmlFor="custom-alert">Search</label>
-            <input id="search-alerts" type="text" value={search} onChange={this.updateSearch} />
-            <label htmlFor="custom-alert">Sort</label>
-            <select id="sort-alerts" value={sort} onChange={this.updateSort}>
-              <option value="name">Alphabetical</option>
-              <option value="-name">Reverse Alphabetical</option>
-              <option value="created_at">Oldest</option>
-              <option value="-created_at">Newest</option>
-            </select>
-            <label htmlFor="custom-alert">Limit</label>
-            <select id="limit-alerts" value={limit} onChange={this.updateLimit}>
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="">All</option>
-            </select>
-            <button type="button" disabled={prevButtonDisabled} onClick={this.previousPage}>Previous</button>
-            &nbsp;
-            <button type="button" disabled={nextButtonDisabled} onClick={this.nextPage}>Next</button>
-            &nbsp;
-            Page:
-            {page}
-            /
-            {totalPages}
+            <div>
+              <label htmlFor="custom-alert">Search</label>
+              <input id="search-alerts" type="text" onKeyUp={this.processChange}/>
+            </div>
+            {this.props.associationsType === null ? (
+              <div>
+                <label htmlFor="custom-alert">Tags</label>
+                <input id="tag-alerts" type="checkbox" checked={includeTags} onChange={this.updateIncludeTags} />
+              </div>
+            ) : null}
+            <div>
+              <label htmlFor="custom-alert">Sort</label>
+              <select id="sort-alerts" value={sort} onChange={this.updateSort}>
+                <option value="name">Alphabetical</option>
+                <option value="-name">Reverse Alphabetical</option>
+                <option value="created_at">Oldest</option>
+                <option value="-created_at">Newest</option>
+              </select>
+            </div>
           </form>
           <div className="grid">
             { alerts }
+            <div id="infiniteScroll" className="infinite-scroll"></div>
           </div>
         </div>
-        <h3>New Alert</h3>
-        <div className="custom-alert">
-          <CustomAlert ref={this.customAlert} refreshAlerts={this.refreshAlerts} />
-        </div>
-      </div>
     );
   }
 }
+
+Alerts.propTypes = {
+  associationsType: PropTypes.text,
+  associations: PropTypes.array,
+  editAlert: PropTypes.func,
+  editTag: PropTypes.func,
+  toggleAssociation: PropTypes.func,
+};
+
+Alerts.defaultProps = {
+  associationsType: null,
+  associations: [],
+  editAlert: null,
+  editTag: null,
+  toggleAssociation: null,
+};
+
 export default Alerts;

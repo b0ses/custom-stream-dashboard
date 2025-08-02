@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 
 import api from './helpers/api';
 
+const kGlobalConstants = require('./Settings').default;
+
 class Alert extends Component {
   constructor(props) {
     super(props);
 
     this.alert = this.alert.bind(this);
     this.editAlert = this.editAlert.bind(this);
+    this.editTag = this.editTag.bind(this);
     this.removeAlert = this.removeAlert.bind(this);
+    this.removeTag = this.removeTag.bind(this);
+    this.toggleSelected = this.toggleSelected.bind(this);
   }
 
   alert() {
@@ -19,15 +24,35 @@ class Alert extends Component {
       }
     } = this.props;
     const savedAlertData = {
-      name
+      name,
+      live: kGlobalConstants.LIVE
     };
-    api.request('alerts/alert', savedAlertData);
+    if (!this.props.tag){
+      api.request('alerts/alert', savedAlertData);
+    }
+    else {
+      api.request('alerts/tag_alert', savedAlertData);
+    }
   }
 
   editAlert(event) {
     event.preventDefault();
-    const { alertData, setEditAlert } = this.props;
-    setEditAlert(alertData);
+    const {
+      alertData: {
+        name
+      }
+    } = this.props;
+    this.props.editAlert(name);
+  }
+
+  editTag(event) {
+    event.preventDefault();
+    const {
+      alertData: {
+        name
+      }
+    } = this.props;
+    this.props.editTag(name);
   }
 
   removeAlert(event) {
@@ -36,14 +61,45 @@ class Alert extends Component {
       alertData: {
         name
       },
-      refreshAlerts
+      resetAlerts
     } = this.props;
-    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+    if (window.confirm(`Are you sure you want to delete the sound: ${name}?`)) {
       const removeData = {
         name
       };
-      api.request('alerts/remove_alert', removeData, refreshAlerts);
+
+      api.request('alerts/remove_alert', removeData).then((resp) => {
+        resetAlerts();
+      });
     }
+  }
+
+  removeTag(event) {
+    event.preventDefault();
+    const {
+      alertData: {
+        name
+      },
+      resetAlerts
+    } = this.props;
+    if (window.confirm(`Are you sure you want to delete the tag: ${name}?`)) {
+      const removeData = {
+        name
+      };
+
+      api.request('alerts/remove_tag', removeData).then((resp) => {
+        resetAlerts();
+      });
+    }
+  }
+
+  toggleSelected() {
+    const {
+      alertData: {
+        name
+      }
+    } = this.props;
+    this.props.toggleAssociation(name);
   }
 
   render() {
@@ -54,35 +110,56 @@ class Alert extends Component {
       }
     } = this.props;
     let buttonBackgroundClass = '';
-    let alertButtonClass = null;
     let backgroundStyle = {};
+    let borderClass = '';
+    if (this.props.selected){
+      borderClass = 'selected';
+    } else if (this.props.tag){
+      borderClass = 'tag-alert';
+    }
+    
     let buttonThumbnail = thumbnail;
     if (!buttonThumbnail || buttonThumbnail === '') {
       buttonThumbnail = '#DDD';
     }
+
     if (buttonThumbnail[0] === '#') {
       backgroundStyle = {
-        backgroundColor: buttonThumbnail
+        backgroundColor: buttonThumbnail,
       };
       buttonBackgroundClass = 'color-background';
-      alertButtonClass = 'button-overlay';
     } else {
       backgroundStyle = {
         backgroundImage: `url(${buttonThumbnail})`
       };
       buttonBackgroundClass = 'image-background';
-      alertButtonClass = 'transparent-overlay';
     }
+
+    let buttonOnClick = null;
+    if (this.props.preview) {
+      buttonOnClick = this.props.customAlert;
+    }
+    else if (this.props.selectable) {
+      buttonOnClick = this.toggleSelected;
+    }
+    else {
+      buttonOnClick = this.alert;
+    }
+
     return (
-      <div className="div-alert">
-        <div className={`circle button-background ${buttonBackgroundClass}`} style={backgroundStyle} />
-        <button className={`alert-button ${alertButtonClass}`} type="submit" value={name} onClick={this.alert} />
-        <p title={name}>{ name }</p>
-        <p>
-          <a href="/" onClick={this.editAlert}>edit</a>
-          &nbsp;
-          <a href="/" onClick={this.removeAlert}>remove</a>
-        </p>
+      <div className={`div-alert${this.props.preview ? ' preview' : ''} ${borderClass}`}>
+        <button className={`button-background ${buttonBackgroundClass}`} style={backgroundStyle} type="submit" value={name} onClick={buttonOnClick} />
+        <p className={`${this.props.selected ? 'selected' : ''} ${name.length > 10 ? 'marquee' : null}`} title={name}><span tabIndex='0'>{ name }</span></p>
+        { !this.props.preview && !this.props.selectable ? (
+          <p>
+            <button onClick={!this.props.tag ? this.editAlert : this.editTag}>edit</button>
+            &nbsp;
+            {this.props.tag && name === 'random' ? (null) : (
+              <button onClick={!this.props.tag ? this.removeAlert: this.removeTag}>remove</button>
+            )}
+          </p>
+        ) : <p /> }
+
       </div>
     );
   }
@@ -97,14 +174,26 @@ Alert.propTypes = {
     duration: PropTypes.number,
     effect: PropTypes.string
   }),
-  refreshAlerts: PropTypes.func,
-  setEditAlert: PropTypes.func
+  resetAlerts: PropTypes.func,
+  editAlert: PropTypes.func,
+  editTag: PropTypes.func,
+  toggleAssociation: PropTypes.func,
+  tag: PropTypes.bool,
+  selectable: PropTypes.bool,
+  selected: PropTypes.bool,
+  preview: PropTypes.bool
 };
 
 Alert.defaultProps = {
   alertData: null,
-  refreshAlerts: null,
-  setEditAlert: null
+  resetAlerts: null,
+  editAlert: null,
+  editTag: null,
+  toggleAssociation: null,
+  tag: false,
+  selectable: false,
+  selected: false,
+  preview: false
 };
 
 export default Alert;
