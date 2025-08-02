@@ -1,6 +1,6 @@
 const kGlobalConstants = require('../Settings').default;
 
-function request(endpoint, data) {
+async function request(endpoint, data) {
   const server = `${kGlobalConstants.API_HOST}:${kGlobalConstants.API_PORT}/`;
   const type = data ? 'POST' : 'GET';
   const requestObj = {
@@ -19,7 +19,7 @@ function request(endpoint, data) {
       .then(respData => ({
         data: respData,
         status: response.status
-      })));
+      })))
 }
 
 export default { request };

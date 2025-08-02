@@ -14,7 +14,7 @@ The actual frontend overlay you want OBS or your streaming app to connect to.
 
 ##### Settings
 
-Fill in your [settings](src/Settings.js) to match the API settings. 
+Fill in your [settings](src/js/Settings.js) to match the API settings. 
 Also modify [package.json](package.json) to setup where you want this server to be hosted.
 
 ##### Running
