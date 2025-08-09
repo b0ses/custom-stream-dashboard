@@ -79,11 +79,12 @@ class Home extends Component {
   }
 
   resetAlerts() {
-    this.alertsRef.current.resetAlerts();
     this.setState({
       editName: null,
       associations: [],
       associationsType: null
+    }, () => {
+      this.alertsRef.current.resetAlerts();
     });
   }
 

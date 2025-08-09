@@ -25,6 +25,7 @@ class Alerts extends Component {
       savedIncludeTags: true,
       savedIncludeAlerts: true,
       infiniteScroll: true,
+      initialLoad: false,
       selected: []
     };
 
@@ -34,6 +35,7 @@ class Alerts extends Component {
     this.setAlerts = this.setAlerts.bind(this);
     this.updateSearch = this.updateSearch.bind(this);
     this.updateIncludeTags = this.updateIncludeTags.bind(this);
+    this.updateIncludeAlerts = this.updateIncludeAlerts.bind(this);
     this.updateSort = this.updateSort.bind(this);
     this.updateLimit = this.updateLimit.bind(this);
     this.nextPage = this.nextPage.bind(this);
@@ -91,7 +93,8 @@ class Alerts extends Component {
 
     this.setState({
       alertData: newAlertData,
-      total
+      total,
+      initialLoad: true,
     });
   }
 
@@ -145,6 +148,18 @@ class Alerts extends Component {
     }, this.resetAlerts);
   }
 
+  updateIncludeAlerts(event) {
+    const {
+      target: {
+        checked
+      }
+    } = event;
+    this.setState({
+      includeAlerts: checked,
+    }, this.resetAlerts);
+  }
+
+
   updateSort(event) {
     const {
       target: {
@@ -186,6 +201,7 @@ class Alerts extends Component {
   resetAlerts() {
     this.setState({
       page: 1,
+      initialLoad: false,
       alertData: []
     }, this.refreshAlerts);
   }
@@ -228,11 +244,14 @@ class Alerts extends Component {
   }
 
   handleIntersect(entries) {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        this.nextPage();
-      }
-    });
+    const { initialLoad } = this.state;
+    if (initialLoad){
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.nextPage();
+        }
+      });
+    }
   }
 
   render() {
@@ -271,6 +290,15 @@ class Alerts extends Component {
       guide = `Click to add/remove ${this.props.associationsType} from ${counter}. Save/Update or Cancel when finished.`
     }
 
+    // Prevent unchecking both boxes
+    let disableTags, disableAlerts = false;
+    if (!includeTags){
+      disableAlerts = true;
+    }
+    else if (!includeAlerts){
+      disableTags = true;
+    }
+
     return (
         <div className="saved-alerts">
           <h3>{header}</h3>
@@ -287,7 +315,13 @@ class Alerts extends Component {
             {this.props.associationsType === null ? (
               <div>
                 <label htmlFor="custom-alert">Tags</label>
-                <input id="tag-alerts" type="checkbox" checked={includeTags} onChange={this.updateIncludeTags} />
+                <input id="include-tags" type="checkbox" checked={includeTags} onChange={this.updateIncludeTags} disabled={disableTags}/>
+              </div>
+            ) : null}
+            {this.props.associationsType === null ? (
+              <div>
+                <label htmlFor="custom-alert">Sounds</label>
+                <input id="include-alerts" type="checkbox" checked={includeAlerts} onChange={this.updateIncludeAlerts} disabled={disableAlerts}/>
               </div>
             ) : null}
             <div>
