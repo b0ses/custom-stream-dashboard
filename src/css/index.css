@@ -167,6 +167,7 @@ input:checked + .slider::before {
   display: grid;
   grid-template-columns: repeat(auto-fill, 110px);
   place-content: center center;
+  margin-bottom: 50px;
 }
 
 .div-alert {
