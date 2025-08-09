@@ -48,7 +48,7 @@ button:disabled {
   min-width: 375px;
   flex-basis: 50%;
   flex-grow: 1;
-  height: 330px;
+  height: 360px;
 }
 
 .real-time-overlay, .custom-alert, .saved-alerts {
