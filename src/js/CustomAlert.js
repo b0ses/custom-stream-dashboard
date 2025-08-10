@@ -13,12 +13,16 @@ const kGlobalConstants = require('./Settings').default;
 class CustomAlert extends Component {
   constructor(props) {
     super(props);
+    
+    this.tagCategories = ['reference', 'character', 'content'];
+
     this.state = {
       name: '',
       text: '',
       sound: '',
       effect: '',
       thumbnail: '',
+      category: 'content',
       newAlert: true,
       statusMessage: '',
       showAssociationsButton: true,
@@ -263,11 +267,12 @@ class CustomAlert extends Component {
   }
 
   saveTag() {
-    const { name, thumbnail } = this.state;
+    const { name, thumbnail, category } = this.state;
     const { associations } = this.props;
     const tagData = {
       name,
       thumbnail,
+      category,
       alerts: associations
     };
     const filtered = Object.keys(tagData)
@@ -285,6 +290,7 @@ class CustomAlert extends Component {
         sound: '',
         effect: '',
         thumbnail: '',
+        category: '',
         newAlert: true,
         statusMessage: resp.data.message,
         showAssociationsButton: true
@@ -333,6 +339,7 @@ class CustomAlert extends Component {
       sound,
       effect,
       thumbnail,
+      category,
       newAlert,
       statusMessage,
       showAssociationsButton
@@ -377,6 +384,12 @@ class CustomAlert extends Component {
                     </div>
                     <label htmlFor="custom-alert">Sounds</label>
                     {(showAssociationsButton && name !== 'random') ? (<button type="button" onClick={this.changeAlerts}>Change Sounds</button>) : null}
+                    <label htmlFor="custom-alert">Tag Category</label>
+                    <select id="category" value={category} onChange={this.handleChange}>
+                      {this.tagCategories.map((opt) => (
+                        <option hey={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
                   </form>
               )}
           </div>

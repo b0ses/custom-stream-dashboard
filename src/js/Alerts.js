@@ -13,10 +13,13 @@ class Alerts extends Component {
   constructor() {
     super();
 
+    this.tagCategories = ['all', 'reference', 'character', 'content'];
+
     this.state = {
       alertData: [],
       search: '',
       sort: '-created_at',
+      tagCategory: 'all',
       page: 1,
       total: null,
       limit: kGlobalConstants.PAGE_LIMIT,
@@ -36,6 +39,7 @@ class Alerts extends Component {
     this.updateSearch = this.updateSearch.bind(this);
     this.updateIncludeTags = this.updateIncludeTags.bind(this);
     this.updateIncludeAlerts = this.updateIncludeAlerts.bind(this);
+    this.updateTagCategory = this.updateTagCategory.bind(this);
     this.updateSort = this.updateSort.bind(this);
     this.updateLimit = this.updateLimit.bind(this);
     this.nextPage = this.nextPage.bind(this);
@@ -159,6 +163,17 @@ class Alerts extends Component {
     }, this.resetAlerts);
   }
 
+  updateTagCategory(event) {
+    const {
+      target: {
+        value
+      }
+    } = event;
+    this.setState({
+      tagCategory: value,
+    }, this.resetAlerts);
+  }
+
 
   updateSort(event) {
     const {
@@ -213,13 +228,15 @@ class Alerts extends Component {
       limit,
       page,
       includeTags,
-      includeAlerts
+      includeAlerts,
+      tagCategory
     } = this.state;
     const params = {
       search,
       sort,
       page,
       limit,
+      "tag_category": (tagCategory === 'all') ? null : tagCategory,
       "include_tags": includeTags,
       "include_alerts": includeAlerts
     };
@@ -263,7 +280,8 @@ class Alerts extends Component {
       limit,
       total,
       includeAlerts,
-      includeTags
+      includeTags,
+      tagCategory
     } = this.state;
     // const prevButtonDisabled = (page === 1);
     // const nextButtonDisabled = (alertData.length < limit);
@@ -316,6 +334,16 @@ class Alerts extends Component {
               <div>
                 <label htmlFor="custom-alert">Tags</label>
                 <input id="include-tags" type="checkbox" checked={includeTags} onChange={this.updateIncludeTags} disabled={disableTags}/>
+              </div>
+            ) : null}
+              {includeTags ? (
+              <div>
+                <label htmlFor="custom-alert">Tag Category</label>
+                <select id="filter-tags-category" value={tagCategory} onChange={this.updateTagCategory}>
+                  {this.tagCategories.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
               </div>
             ) : null}
             {this.props.associationsType === null ? (
