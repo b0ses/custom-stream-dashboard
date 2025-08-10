@@ -114,6 +114,7 @@ class CustomAlert extends Component {
     const transformedData = {
       name: data.tag.name,
       thumbnail: data.tag.thumbnail,
+      category: data.tag.category,
       newAlert: false,
       statusMessage: ''
     }
