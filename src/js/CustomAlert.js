@@ -25,7 +25,7 @@ class CustomAlert extends Component {
       category: 'content',
       newAlert: true,
       statusMessage: '',
-      showAssociationsButton: true,
+      showAssociationsButton: false,
     };
 
     this.colorPickerRef = React.createRef();
@@ -102,6 +102,7 @@ class CustomAlert extends Component {
       effect: data.alert.effect,
       thumbnail: data.alert.thumbnail,
       newAlert: false,
+      showAssociationsButton: true,
       statusMessage: ''
     }
     this.setState(transformedData);
@@ -114,8 +115,9 @@ class CustomAlert extends Component {
     const transformedData = {
       name: data.tag.name,
       thumbnail: data.tag.thumbnail,
-      category: data.tag.category,
+      category: data.tag.category || 'content',
       newAlert: false,
+      showAssociationsButton: true,
       statusMessage: ''
     }
     this.setState(transformedData);
@@ -138,6 +140,9 @@ class CustomAlert extends Component {
     }
 
     if (id === 'name') {
+      this.setState({
+        showAssociationsButton: (value !== '')
+      });
       if (editMode === 'alert'){
         this.processAlertName(value);
       }
@@ -228,7 +233,8 @@ class CustomAlert extends Component {
       thumbnail: '',
       newAlert: true,
       statusMessage: '',
-      showAssociationsButton: true
+      category: 'content',
+      showAssociationsButton: false
     });
     this.props.resetAlerts();
   }
@@ -261,7 +267,7 @@ class CustomAlert extends Component {
         thumbnail: '',
         newAlert: true,
         statusMessage: resp.data.message,
-        showAssociationsButton: true
+        showAssociationsButton: false
       })
       this.props.resetAlerts();
     });
@@ -282,6 +288,7 @@ class CustomAlert extends Component {
         obj[key] = tagData[key];
         return obj;
       }, {});
+    console.log(filtered);
     
     
     api.request('alerts/save_tag', filtered).then((resp) => {
@@ -291,7 +298,7 @@ class CustomAlert extends Component {
         sound: '',
         effect: '',
         thumbnail: '',
-        category: '',
+        category: 'content',
         newAlert: true,
         statusMessage: resp.data.message,
         showAssociationsButton: true
@@ -328,6 +335,7 @@ class CustomAlert extends Component {
       thumbnail: '',
       newAlert: true,
       statusMessage: '',
+      category: 'content',
       showAssociationsButton: true
     });
     this.props.switchMode('tag');
@@ -366,7 +374,7 @@ class CustomAlert extends Component {
                       <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail} />
                     </div>
                     <label htmlFor="custom-alert">Tags</label>
-                    {showAssociationsButton ? (<button type="button" onClick={this.changeTags}>Change Tags</button>) : null}
+                    {showAssociationsButton ? (<button type="button" onClick={this.changeTags}>Set Tags</button>) : null}
                     <label htmlFor="custom-alert">Text</label>
                     <input id="text" type="text" value={text} placeholder="what appears" onChange={this.handleChange} />
                     <label htmlFor="custom-alert">Sound</label>
@@ -384,7 +392,7 @@ class CustomAlert extends Component {
                       <ColorPicker ref={this.colorPickerRef} changeThumbnail={this.changeThumbnail} />
                     </div>
                     <label htmlFor="custom-alert">Sounds</label>
-                    {(showAssociationsButton && name !== 'random') ? (<button type="button" onClick={this.changeAlerts}>Change Sounds</button>) : null}
+                    {(showAssociationsButton && name !== 'random') ? (<button type="button" onClick={this.changeAlerts}>Set Sounds</button>) : null}
                     <label htmlFor="custom-alert">Tag Category</label>
                     <select id="category" value={category} onChange={this.handleChange}>
                       {this.tagCategories.map((opt) => (
