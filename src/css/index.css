@@ -172,7 +172,7 @@ input:checked + .slider::before {
 
 .div-alert {
   width: 160px;
-  height: 175px;
+  height: 185px;
   padding: 0 5px;
   position: relative;
   display: inline-block;
