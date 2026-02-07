@@ -105,6 +105,7 @@ class Alert extends Component {
   render() {
     const {
       alertData: {
+        display_name: displayName,
         name,
         thumbnail
       }
@@ -149,7 +150,8 @@ class Alert extends Component {
     return (
       <div className={`div-alert${this.props.preview ? ' preview' : ''} ${borderClass}`}>
         <button className={`button-background ${buttonBackgroundClass}`} style={backgroundStyle} type="submit" value={name} onClick={buttonOnClick} />
-        <p className={`${this.props.selected ? 'selected' : ''} ${name.length > 10 ? 'marquee' : null}`} title={name}><span tabIndex='0'>{ name }</span></p>
+        <p className={`${this.props.selected ? 'selected' : ''} ${name.length > 10 ? 'marquee' : null}`} title={displayName}><span tabIndex='0'>{ displayName }</span></p>
+        <p className={`${this.props.selected ? 'selected' : ''} ${name.length > 10 ? 'marquee' : null} sub-name`} title={name}><span tabIndex='1'>{ name }</span></p>
         { !this.props.preview && !this.props.selectable ? (
           <p>
             <button onClick={!this.props.tag ? this.editAlert : this.editTag}>edit</button>

@@ -387,6 +387,12 @@ class CustomAlert extends Component {
     } = this.state;
     const { editMode } = this.props;
 
+    const alertData = {
+      name,
+      display_name: displayName,
+      thumbnail
+    }
+
     return (
       <div className="custom-alert">
         {editMode === 'alert' ? (
@@ -444,7 +450,7 @@ class CustomAlert extends Component {
             <h4>Preview</h4>
             <Alert
               key="preview"
-              alertData={this.state}
+              alertData={alertData}
               customAlert={this.customAlert}
               preview
             />

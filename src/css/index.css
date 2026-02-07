@@ -165,14 +165,14 @@ input:checked + .slider::before {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 110px);
+  grid-template-columns: repeat(auto-fill, 160px);
   place-content: center center;
   margin-bottom: 50px;
 }
 
 .div-alert {
-  width: 100px;
-  height: 160px;
+  width: 160px;
+  height: 175px;
   padding: 0 5px;
   position: relative;
   display: inline-block;
@@ -184,6 +184,10 @@ input:checked + .slider::before {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+}
+
+.div-alert p.sub-name {
+  font-size: 0.75em
 }
 
 .marquee {
@@ -234,14 +238,14 @@ input:checked + .slider::before {
 
 .button-background {
   height: 100px;
-  width: 100px;
+  width: 150px;
   margin: 0;
   margin-bottom:5px;
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: scroll;
   background-size: 110% 110%;
-  border-radius: 50%;
+  border-radius: 22%;
   border: 0.25rem double;
   border-color: transparent;
 }
@@ -367,12 +371,12 @@ input:checked + .slider::before {
 }
 
 .div-alert.preview {
-  width: 120px;
+  width: 170px;
   height: 160px;
 }
 
 .div-alert.preview .button-background {
-  width: 120px;
+  width: 170px;
   height: 120px;
 }
 
