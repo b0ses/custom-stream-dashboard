@@ -14,6 +14,7 @@ class Home extends Component {
     this.state = {
       editName: null,
       editMode: 'alert',
+      editType: 'edit',
       associationsType: null,
       associations: []
     };
@@ -30,8 +31,9 @@ class Home extends Component {
     this.alertsRef = React.createRef();
   }
 
-  editAlert(alert) {
+  editAlert(alert, type) {
     this.setState({
+      editType: type,
       editMode: 'alert',
       editName: alert
     });
@@ -44,8 +46,9 @@ class Home extends Component {
     });
   }
 
-  editTag(tag) {
+  editTag(tag, type) {
     this.setState({
+      editType: type,
       editMode: 'tag',
       editName: tag
     });
@@ -96,7 +99,7 @@ class Home extends Component {
   }
 
   render() {
-    const { editMode, editName, associations, associationsType } = this.state;
+    const { editMode, editName, editType, associations, associationsType } = this.state;
     
     return (
         <div>
@@ -106,6 +109,7 @@ class Home extends Component {
             <CustomAlert
               name={editName}
               editMode={editMode}
+              editType={editType}
               associations={associations}
               setAssociations={this.setAssociations}
               resetAlerts={this.resetAlerts}
