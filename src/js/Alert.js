@@ -12,6 +12,8 @@ class Alert extends Component {
     this.alert = this.alert.bind(this);
     this.editAlert = this.editAlert.bind(this);
     this.editTag = this.editTag.bind(this);
+    this.cloneAlert = this.cloneAlert.bind(this);
+    this.cloneTag = this.cloneTag.bind(this);
     this.removeAlert = this.removeAlert.bind(this);
     this.removeTag = this.removeTag.bind(this);
     this.toggleSelected = this.toggleSelected.bind(this);
@@ -42,7 +44,7 @@ class Alert extends Component {
         name
       }
     } = this.props;
-    this.props.editAlert(name);
+    this.props.editAlert(name, 'edit');
   }
 
   editTag(event) {
@@ -52,7 +54,30 @@ class Alert extends Component {
         name
       }
     } = this.props;
-    this.props.editTag(name);
+    this.props.editTag(name, 'edit');
+  }
+
+  cloneAlert(event) {
+    console.log('alert clone alert');
+    event.preventDefault();
+    const {
+      alertData: {
+        name
+      }
+    } = this.props;
+    this.props.editAlert(name, 'clone');
+  }
+
+  cloneTag(event) {
+    console.log('alert clone tag');
+    event.preventDefault();
+    const {
+      alertData: {
+        name
+      }
+    } = this.props;
+    console.log('alert clone tag 2');
+    this.props.editTag(name, 'clone');
   }
 
   removeAlert(event) {
@@ -157,8 +182,12 @@ class Alert extends Component {
             <button onClick={!this.props.tag ? this.editAlert : this.editTag}>edit</button>
             &nbsp;
             {this.props.tag && name === 'random' ? (null) : (
-              <button onClick={!this.props.tag ? this.removeAlert: this.removeTag}>remove</button>
-            )}
+              <span>
+                <button onClick={!this.props.tag ? this.removeAlert: this.removeTag}>remove</button>
+                &nbsp;
+                <button onClick={!this.props.tag ? this.cloneAlert : this.cloneTag}>clone</button>
+              </span>
+            )} 
           </p>
         ) : <p /> }
 

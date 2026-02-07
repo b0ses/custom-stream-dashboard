@@ -58,11 +58,13 @@ class CustomAlert extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.editMode !== this.props.editMode || prevProps.name !== this.props.name) {
+    if (prevProps.editMode !== this.props.editMode || prevProps.name !== this.props.name || prevProps.editType !== this.props.editType) {
       if (this.props.editMode === 'alert' && this.props.name !== null) {
+        this.setState({lockName: this.props.editType === 'edit'});
         this.loadAlert(this.props.name);
       }
       else if (this.props.editMode === 'tag' && this.props.name !== null) {
+        this.setState({lockName: this.props.editType === 'edit'});
         this.loadTag(this.props.name);
       }
     }
@@ -107,7 +109,6 @@ class CustomAlert extends Component {
       newAlert: false,
       showAssociationsButton: true,
       showSaveButton: true,
-      lockName: true,
       statusMessage: ''
     }
     this.setState(transformedData);
@@ -125,7 +126,6 @@ class CustomAlert extends Component {
       newAlert: false,
       showAssociationsButton: true,
       showSaveButton: true,
-      lockName: true,
       statusMessage: ''
     }
     this.setState(transformedData);
