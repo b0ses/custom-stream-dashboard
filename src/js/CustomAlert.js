@@ -15,10 +15,11 @@ class CustomAlert extends Component {
     super(props);
     
     this.tagCategories = ['reference', 'character', 'content'];
+    this.effects = ['', 'fade'];
 
     this.state = {
+      displayName: '',
       name: '',
-      text: '',
       sound: '',
       effect: '',
       thumbnail: '',
@@ -26,6 +27,8 @@ class CustomAlert extends Component {
       newAlert: true,
       statusMessage: '',
       showAssociationsButton: false,
+      showSaveButton: false,
+      lockName: false
     };
 
     this.colorPickerRef = React.createRef();
@@ -96,13 +99,15 @@ class CustomAlert extends Component {
   prePopulateAlert(resp) {
     const { data } = resp;
     const transformedData = {
+      displayName: data.alert.text,
       name: data.alert.name,
-      text: data.alert.text,
       sound: data.alert.sound,
       effect: data.alert.effect,
       thumbnail: data.alert.thumbnail,
       newAlert: false,
       showAssociationsButton: true,
+      showSaveButton: true,
+      lockName: true,
       statusMessage: ''
     }
     this.setState(transformedData);
@@ -113,11 +118,14 @@ class CustomAlert extends Component {
   prePopulateTag(resp) {
     const { data } = resp;
     const transformedData = {
+      displayName: data.tag.display_name,
       name: data.tag.name,
       thumbnail: data.tag.thumbnail,
       category: data.tag.category || 'content',
       newAlert: false,
       showAssociationsButton: true,
+      showSaveButton: true,
+      lockName: true,
       statusMessage: ''
     }
     this.setState(transformedData);
@@ -134,21 +142,37 @@ class CustomAlert extends Component {
     } = event;
 
     const { editMode } = this.props;
+    const { lockName, statusMessage } = this.state;
+
+    if (id === 'displayName' && !lockName) {
+      const machineName = value.toLowerCase().replaceAll(/\s|-/g, '_').replaceAll(/[^\w\d]/g, '');
+      this.handleChange({target: {id: 'name', value: machineName}});
+    }
 
     if (id === 'thumbnail') {
       this.colorPickerRef.current.setColor(value);
     }
 
     if (id === 'name') {
-      this.setState({
-        showAssociationsButton: (value !== '')
-      });
-      if (editMode === 'alert'){
-        this.processAlertName(value);
+      let updateMessage = statusMessage;
+
+      const badName = (value === '' || /^.*[^a-z0-9_].*$/.test(value));
+      if (/^.*[^a-z0-9_].*$/.test(value)){
+          updateMessage = 'only lowercase and underscores in name';
       }
       else {
-        this.processTagName(value);
+        if (editMode === 'alert'){
+          this.processAlertName(value);
+        }
+        else {
+          this.processTagName(value);
+        }
       }
+      this.setState({
+        showAssociationsButton: !badName,
+        showSaveButton: !badName,
+        statusMessage: updateMessage
+      });
     }
 
     this.setState({
@@ -214,9 +238,9 @@ class CustomAlert extends Component {
   }
 
   customAlert() {
-    const { text, sound, effect } = this.state;
+    const { displayName, sound, effect } = this.state;
     const filtered = {
-      text,
+      text: displayName,
       sound,
       effect,
       live: kGlobalConstants.LIVE
@@ -226,25 +250,27 @@ class CustomAlert extends Component {
 
   cancel() {
     this.setState({
+      displayName: '',
       name: '',
-      text: '',
       sound: '',
       effect: '',
       thumbnail: '',
       newAlert: true,
       statusMessage: '',
       category: 'content',
-      showAssociationsButton: false
+      showAssociationsButton: false,
+      showSaveButton: false,
+      lockName: false
     });
     this.props.resetAlerts();
   }
 
   saveAlert() {
-    const { name, text, sound, effect, thumbnail } = this.state;
+    const { name, displayName, sound, effect, thumbnail } = this.state;
     const { associations } = this.props;
     const alertData = {
       name,
-      text,
+      text: displayName,
       sound,
       effect,
       thumbnail,
@@ -260,23 +286,26 @@ class CustomAlert extends Component {
     
     api.request('alerts/save_alert', filtered).then((resp) => {
       this.setState({
+        displayName: '',
         name: '',
-        text: '',
         sound: '',
         effect: '',
         thumbnail: '',
         newAlert: true,
         statusMessage: resp.data.message,
-        showAssociationsButton: false
+        showAssociationsButton: false,
+        showSaveButton: false,
+        lockName: false
       })
       this.props.resetAlerts();
     });
   }
 
   saveTag() {
-    const { name, thumbnail, category } = this.state;
+    const { displayName, name, thumbnail, category } = this.state;
     const { associations } = this.props;
     const tagData = {
+      display_name: displayName,
       name,
       thumbnail,
       category,
@@ -288,13 +317,12 @@ class CustomAlert extends Component {
         obj[key] = tagData[key];
         return obj;
       }, {});
-    console.log(filtered);
     
     
     api.request('alerts/save_tag', filtered).then((resp) => {
       this.setState({
+        displayName: '',
         name: '',
-        text: '',
         sound: '',
         effect: '',
         thumbnail: '',
@@ -314,44 +342,48 @@ class CustomAlert extends Component {
 
   switchToAlerts(){
     this.setState({
+      displayName: '',
       name: '',
-      text: '',
       sound: '',
       effect: '',
       thumbnail: '',
       newAlert: true,
       statusMessage: '',
-      showAssociationsButton: true
+      showAssociationsButton: false,
+      showSaveButton: false
     });
     this.props.switchMode('alert');
   }
 
   switchToTags(){
     this.setState({
+      displayName: '',
       name: '',
-      text: '',
       sound: '',
       effect: '',
       thumbnail: '',
       newAlert: true,
       statusMessage: '',
       category: 'content',
-      showAssociationsButton: true
+      showAssociationsButton: false,
+      showSaveButton: false,
     });
     this.props.switchMode('tag');
   }
 
   render() {
     const {
+      displayName,
       name,
-      text,
       sound,
       effect,
       thumbnail,
       category,
       newAlert,
       statusMessage,
-      showAssociationsButton
+      showAssociationsButton,
+      showSaveButton,
+      lockName
     } = this.state;
     const { editMode } = this.props;
 
@@ -366,8 +398,18 @@ class CustomAlert extends Component {
           <div className="custom-form">
               {editMode == 'alert' ? (
                   <form onSubmit={this.handleSubmit}>
+                    <label htmlFor="custom-alert">Display Name</label>
+                    <input id="displayName" type="text" value={displayName} placeholder="display name and what appears on screen" onChange={this.handleChange} />
                     <label htmlFor="custom-alert">Name</label>
-                    <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
+                    <input id="name" type="text" value={name} placeholder="unique name for database to reference via chat" onChange={this.handleChange} disabled={lockName}/>
+                    <label htmlFor="custom-alert">Sound</label>
+                    <input id="sound" type="text" value={sound} placeholder="what gets heard (.mp3, .wav)" onChange={this.handleChange} />
+                    <label htmlFor="custom-alert">Effect</label>
+                    <select id="effect" value={effect} placeholder="any effects to the text/sound" onChange={this.handleChange}>
+                      {this.effects.map((opt) => (
+                        <option key={opt} value={opt}>{opt}</option>
+                      ))}
+                    </select>
                     <label htmlFor="custom-alert">Button</label>
                     <div className="alert-thumbnail">
                       <input id="thumbnail" type="text" value={thumbnail} placeholder="image url or hex color below" onChange={this.handleChange} />
@@ -375,17 +417,13 @@ class CustomAlert extends Component {
                     </div>
                     <label htmlFor="custom-alert">Tags</label>
                     {showAssociationsButton ? (<button type="button" onClick={this.changeTags}>Set Tags</button>) : null}
-                    <label htmlFor="custom-alert">Text</label>
-                    <input id="text" type="text" value={text} placeholder="what appears" onChange={this.handleChange} />
-                    <label htmlFor="custom-alert">Sound</label>
-                    <input id="sound" type="text" value={sound} placeholder="what gets heard (.mp3, .wav)" onChange={this.handleChange} />
-                    <label htmlFor="custom-alert">Effect</label>
-                    <input id="effect" type="text" value={effect} placeholder="how it appears (ex. fade)" onChange={this.handleChange} />
                   </form>
               ) : (
                   <form onSubmit={this.handleSubmit}>
+                    <label htmlFor="custom-alert">Display Name</label>
+                    <input id="displayName" type="text" value={displayName} placeholder="display name" onChange={this.handleChange} />
                     <label htmlFor="custom-alert">Name</label>
-                    <input id="name" type="text" value={name} placeholder="for saving" onChange={this.handleChange} />
+                    <input id="name" type="text" value={name} placeholder="unique name for database to reference via chat" onChange={this.handleChange} disabled={lockName}/>
                     <label htmlFor="custom-alert">Button</label>
                     <div className="alert-thumbnail">
                       <input id="thumbnail" type="text" value={thumbnail} placeholder="image url or hex color below" onChange={this.handleChange} />
@@ -396,7 +434,7 @@ class CustomAlert extends Component {
                     <label htmlFor="custom-alert">Tag Category</label>
                     <select id="category" value={category} onChange={this.handleChange}>
                       {this.tagCategories.map((opt) => (
-                        <option hey={opt} value={opt}>{opt}</option>
+                        <option key={opt} value={opt}>{opt}</option>
                       ))}
                     </select>
                   </form>
@@ -412,7 +450,7 @@ class CustomAlert extends Component {
             />
             <p id="save-status">{statusMessage}</p>
             <div className="custom-form-save">
-              <button type="button" onClick={editMode === 'alert' ? this.saveAlert : this.saveTag} disabled={(name === '')}>{newAlert ? 'Save' : 'Update'}</button>
+              <button type="button" onClick={editMode === 'alert' ? this.saveAlert : this.saveTag} disabled={!showSaveButton}>{newAlert ? 'Save' : 'Update'}</button>
               <button type="button" onClick={this.cancel}>Cancel</button>
             </div>
           </div>

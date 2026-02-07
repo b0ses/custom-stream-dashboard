@@ -291,7 +291,7 @@ input:checked + .slider::before {
 
 .custom-form form {
   display: grid;
-  grid-template-columns: 100px minmax(100px, 1fr);
+  grid-template-columns: 110px minmax(110px, 1fr);
   grid-gap: 5px;
   column-gap: 10px;
   margin: 10px;
