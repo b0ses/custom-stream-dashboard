@@ -172,7 +172,7 @@ input:checked + .slider::before {
 
 .div-alert {
   width: 160px;
-  height: 160px;
+  height: 175px;
   padding: 0 5px;
   position: relative;
   display: inline-block;
@@ -184,6 +184,10 @@ input:checked + .slider::before {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+}
+
+.div-alert p.sub-name {
+  font-size: 0.75em
 }
 
 .marquee {
