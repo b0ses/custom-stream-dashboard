@@ -221,22 +221,6 @@ input:checked + .slider::before {
   box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
 
-/* Base popup styling */
-.toast-popup {
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: 'translateX(-50%)';
-  backgroundColor: '#333';
-  color: '#fff';
-  padding: '6px 12px';
-  borderRadius: '4px';
-  fontSize: '12px';
-  whiteSpace: 'nowrap';
-  zIndex: 10;
-  boxShadow: '0px 2px 8px rgba(0,0,0,0.15)';
-}
-
 .custom-form-save {
   margin-left:5px;
 }
