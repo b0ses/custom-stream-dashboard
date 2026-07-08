@@ -24,10 +24,6 @@ select {
   border-color: #444;
 }
 
-button:disabled {
-  color: #666;
-}
-
 .saved-alerts,
 .real-time-overlay {
   padding-left: 20px;
@@ -184,6 +180,10 @@ input:checked + .slider::before {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+}
+
+button:disabled {
+  color: #666;
 }
 
 .div-alert button.sub-name {
