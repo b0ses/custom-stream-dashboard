@@ -24,10 +24,6 @@ select {
   border-color: #444;
 }
 
-button:disabled {
-  color: #666;
-}
-
 .saved-alerts,
 .real-time-overlay {
   padding-left: 20px;
@@ -178,7 +174,7 @@ input:checked + .slider::before {
   display: inline-block;
 }
 
-.div-alert p {
+.div-alert p, button {
   margin: 5px 0;
   font-size: 1em;
   overflow: hidden;
@@ -186,8 +182,14 @@ input:checked + .slider::before {
   text-align: center;
 }
 
-.div-alert p.sub-name {
-  font-size: 0.75em
+button:disabled {
+  color: #666;
+}
+
+.div-alert button.sub-name {
+  font-size: 0.75em;
+  margin: 0;
+  border: none;
 }
 
 .marquee {
@@ -210,6 +212,13 @@ input:checked + .slider::before {
     100% {
         transform: translateX(-100%); /* Ending position, scrolls completely off-screen to the left */
     }
+}
+
+.copy-text {
+  max-width: 100%; /* Or a fixed width */
+  overflow: hidden; /* Hides content outside the container */
+  white-space: nowrap; /* Prevents text from wrapping */
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
 
 .custom-form-save {

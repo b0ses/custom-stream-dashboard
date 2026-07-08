@@ -9,11 +9,16 @@ class Alert extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      copied: false
+    };
+
     this.alert = this.alert.bind(this);
     this.editAlert = this.editAlert.bind(this);
     this.editTag = this.editTag.bind(this);
     this.cloneAlert = this.cloneAlert.bind(this);
     this.cloneTag = this.cloneTag.bind(this);
+    this.handleCopy = this.handleCopy.bind(this);
     this.removeAlert = this.removeAlert.bind(this);
     this.removeTag = this.removeTag.bind(this);
     this.toggleSelected = this.toggleSelected.bind(this);
@@ -58,7 +63,6 @@ class Alert extends Component {
   }
 
   cloneAlert(event) {
-    console.log('alert clone alert');
     event.preventDefault();
     const {
       alertData: {
@@ -69,14 +73,12 @@ class Alert extends Component {
   }
 
   cloneTag(event) {
-    console.log('alert clone tag');
     event.preventDefault();
     const {
       alertData: {
         name
       }
     } = this.props;
-    console.log('alert clone tag 2');
     this.props.editTag(name, 'clone');
   }
 
@@ -127,6 +129,22 @@ class Alert extends Component {
     this.props.toggleAssociation(name);
   }
 
+
+
+  handleCopy (text) {
+    navigator.clipboard.writeText(text);
+
+    this.setState({
+      copied: true
+    })
+
+    setTimeout(() => {
+      this.setState({
+        copied: false
+      })
+    }, 2000);
+  };
+
   render() {
     const {
       alertData: {
@@ -135,6 +153,7 @@ class Alert extends Component {
         thumbnail
       }
     } = this.props;
+    const { copied } = this.state;
     let buttonBackgroundClass = '';
     let backgroundStyle = {};
     let borderClass = '';
@@ -172,11 +191,19 @@ class Alert extends Component {
       buttonOnClick = this.alert;
     }
 
+    let subName = null;
+    if (copied) {
+      subName = 'copied!';
+    }
+    else {
+      subName = name;
+    }
+
     return (
       <div className={`div-alert${this.props.preview ? ' preview' : ''} ${borderClass}`}>
         <button className={`button-background ${buttonBackgroundClass}`} style={backgroundStyle} type="submit" value={name} onClick={buttonOnClick} />
         <p className={`${this.props.selected ? 'selected' : ''} ${name.length > 10 ? 'marquee' : null}`} title={displayName}><span tabIndex='0'>{ displayName }</span></p>
-        <p className={`${this.props.selected ? 'selected' : ''} ${name.length > 10 ? 'marquee' : null} sub-name`} title={name}><span tabIndex='1'>{ name }</span></p>
+        <button onClick={() => this.handleCopy(name)} className={`${this.props.selected ? 'selected ' : ''}copy-text sub-name`} title={name}><span tabIndex='1'>{ subName }</span></button>
         { !this.props.preview && !this.props.selectable ? (
           <p>
             <button onClick={!this.props.tag ? this.editAlert : this.editTag}>edit</button>
