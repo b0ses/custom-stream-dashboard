@@ -202,7 +202,7 @@ class Alert extends Component {
     return (
       <div className={`div-alert${this.props.preview ? ' preview' : ''} ${borderClass}`}>
         <button className={`button-background ${buttonBackgroundClass}`} style={backgroundStyle} type="submit" value={name} onClick={buttonOnClick} />
-        <p className={`${this.props.selected ? 'selected' : ''} ${name.length > 10 ? 'marquee' : null}`} title={displayName}><span tabIndex='0'>{ displayName }</span></p>
+        <p className={`${this.props.selected ? 'selected' : ''} ${displayName.length > 10 ? 'marquee' : null}`} title={displayName}><span tabIndex='0'>{ displayName || "\u00A0" }</span></p>
         <button onClick={() => this.handleCopy(name)} className={`${this.props.selected ? 'selected ' : ''}copy-text sub-name`} title={name}><span tabIndex='1'>{ subName }</span></button>
         { !this.props.preview && !this.props.selectable ? (
           <p>
